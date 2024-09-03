@@ -9,7 +9,36 @@ body {
   background-color: rgb(173, 173, 173);
 }
 
+body::-webkit-scrollbar {
+  display: none;
+}
+
 .title {
+  width: 20%;
+  margin: 20px auto;
+  padding: 6px 0;
+  border-radius: 10px;
+  background-color: rgb(93, 205, 239);
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.collection {
+  background-color: rgb(112, 167, 223);
+  margin: 20px;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.tier {
+  background-color: rgb(230, 52, 52);
+  margin: 20px 0;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.tier-title {
   width: 20%;
   margin: 20px auto;
   padding: 6px 0;
@@ -17,4 +46,19 @@ body {
   background-color: rgb(58, 119, 217);
   text-align: center;
   font-size: 2rem;
+  font-weight: bold;
+}
+
+.cards {
+  display: flex;
+  padding-bottom: 20px;
+}
+
+.card {
+  background-color: blueviolet;
+  margin: 0 10px;
+  padding: 10px;
+  border-radius: 10px;
+  width: 250px;
+  height: 300px;
 }
