@@ -26,6 +26,7 @@ function Tier({ tier }) {
 }
 
 function Card({ card }) {
+  // eslint-disable-next-line no-unused-vars
   const [cantity, setCantity] = useState(0);
   // TODO: Remove the comment
   // console.log(card.name);
