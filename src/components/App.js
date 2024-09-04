@@ -1,35 +1,44 @@
-function App() {
+import { useState } from 'react';
+import TiersData from '../data/tiersData';
+
+export default function App() {
+  const tiers = TiersData.tiers;
+
   return (
     <div className="app">
       <div className="title">CARD REALM</div>
       <div className="collection">
-        <Tier tier="COMMON" cardsNumber={6} />
-        <Tier tier="UNCOMMON" cardsNumber={5} />
-        <Tier tier="RARE" cardsNumber={4} />
-        <Tier tier="SUPER RARE" cardsNumber={3} />
+        {tiers.map((tier) => (<Tier key={tier.id} tier={tier} />))}
       </div>
     </div>
   );
 }
 
-function Tier({ tier, cardsNumber }) {
+function Tier({ tier }) {
   return (
     <div className="tier">
-      <div className="tier-title">{tier}</div>
+      <div className="tier-title">{tier.name}</div>
       <div className="cards">
-        {Array(cardsNumber).fill(<Card />)}
+        {tier.cards.map((card) => (<Card key={tier.id + "-" + card.id} card={card} />))}
       </div>
     </div>
   );
 }
 
-function Card() {
+function Card({ card }) {
+  const [cantity, setCantity] = useState(0);
+  // TODO: Remove the comment
+  // console.log(card.name);
+  // if (card.name === "Card C1" && cantity === 0) {
+  //   setCantity(1);
+  // }
+
   return (
-    <div className="card">
-      <h2 className="card-title">Card Title</h2>
-      <p className="card-description">Card Description</p>
-    </div>
+    <>
+      {cantity !== 0 ?
+        <div className="card card-discovered"><h2 className="card-title">{card.name}</h2></div>
+        :
+        <div className="card card-not-discovered"><img className="card-not-discovered-img" src="/img/unknown.png" alt="Card not discovered" /></div>}
+    </>
   );
 }
-
-export default App;

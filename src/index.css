@@ -55,10 +55,24 @@ body::-webkit-scrollbar {
 }
 
 .card {
-  background-color: blueviolet;
   margin: 0 10px;
   padding: 10px;
   border-radius: 10px;
-  width: 250px;
+  width: 260px;
   height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-discovered {
+  background-color: rgb(47, 203, 38);
+}
+
+.card-not-discovered {
+  background-color: rgb(100, 100, 100);
+}
+
+.card-not-discovered-img {
+  width: 80%;
 }
