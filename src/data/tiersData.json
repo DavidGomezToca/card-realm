@@ -6,33 +6,27 @@
       "cards": [
         {
           "id": 0,
-          "name": "Card C1",
-          "image": ""
+          "name": "TURQUOISE"
         },
         {
           "id": 1,
-          "name": "Card C2",
-          "image": ""
+          "name": "LAPIS LAZULI"
         },
         {
           "id": 2,
-          "name": "Card C3",
-          "image": ""
+          "name": "AQUAMARINE"
         },
         {
           "id": 3,
-          "name": "Card C4",
-          "image": ""
+          "name": "CITRINE"
         },
         {
           "id": 4,
-          "name": "Card C5",
-          "image": ""
+          "name": "JADE"
         },
         {
           "id": 5,
-          "name": "Card C6",
-          "image": ""
+          "name": "OPAL"
         }
       ]
     },
@@ -42,28 +36,23 @@
       "cards": [
         {
           "id": 0,
-          "name": "Card U1",
-          "image": ""
+          "name": "SPINEL"
         },
         {
           "id": 1,
-          "name": "Card U2",
-          "image": ""
+          "name": "TOURMALINE"
         },
         {
           "id": 2,
-          "name": "Card U3",
-          "image": ""
+          "name": "PERIDOT"
         },
         {
           "id": 3,
-          "name": "Card U4",
-          "image": ""
+          "name": "MOONSTONE"
         },
         {
           "id": 4,
-          "name": "Card U5",
-          "image": ""
+          "name": "QUARTZ"
         }
       ]
     },
@@ -73,23 +62,19 @@
       "cards": [
         {
           "id": 0,
-          "name": "Card R1",
-          "image": ""
+          "name": "TOPAZ"
         },
         {
           "id": 1,
-          "name": "Card R2",
-          "image": ""
+          "name": "AMETHYST"
         },
         {
           "id": 2,
-          "name": "Card R3",
-          "image": ""
+          "name": "SAPPHIRE"
         },
         {
           "id": 3,
-          "name": "Card R4",
-          "image": ""
+          "name": "EMERALD"
         }
       ]
     },
@@ -99,18 +84,15 @@
       "cards": [
         {
           "id": 0,
-          "name": "Card SR1",
-          "image": ""
+          "name": "DIAMOND"
         },
         {
           "id": 1,
-          "name": "Card SR2",
-          "image": ""
+          "name": "RUBY"
         },
         {
           "id": 2,
-          "name": "Card SR3",
-          "image": ""
+          "name": "ONYX"
         }
       ]
     }
