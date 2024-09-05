@@ -24,7 +24,7 @@ body::-webkit-scrollbar {
   font-weight: bold;
 }
 
-.collection {
+.panel {
   background-color: rgb(112, 167, 223);
   margin: 20px;
   padding: 20px;
@@ -63,6 +63,10 @@ body::-webkit-scrollbar {
   height: 300px;
 }
 
+.card:hover {
+  transform: scale(1.1);
+}
+
 .card-discovered {
   background-color: rgb(200, 200, 200);
 }
@@ -94,4 +98,25 @@ body::-webkit-scrollbar {
 
 .card-not-discovered-img {
   width: 80%;
+}
+
+.open-packs {
+  background-color: rgb(146, 89, 237);
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.open-packs-button {
+  background-color: rgb(225, 208, 95);
+  border: none;
+  font-size: 1.4rem;
+  font-weight: 500;
+  padding: 1.4rem 3.2rem;
+  transition: all 0.2s;
+  border-radius: 10px;
+}
+
+.open-packs-button:hover {
+  background-color: rgb(225, 190, 95);
+  transform: scale(1.02);
 }
