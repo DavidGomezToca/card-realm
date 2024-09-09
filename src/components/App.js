@@ -1,7 +1,9 @@
 import { useState } from 'react';
+import LuckData from '../data/luckData';
 import TiersData from '../data/tiersData';
 
 export default function App() {
+  const luckProbabilites = LuckData.luckProbabilities;
   const tiers = TiersData.tiers;
   const [cardQuantities, setCardQuantities] = useState(() => {
     const initialQuantities = {};
@@ -13,15 +15,26 @@ export default function App() {
     return initialQuantities;
   });
 
-  function openPack() {
-    let randomTier = Math.floor(Math.random() * tiers.length);
-    let randomCard = Math.floor(Math.random() * tiers[randomTier].cards.length);
-    let choseCard = `${randomTier}-${randomCard}`;
-
-    setCardQuantities(prev => ({
-      ...prev,
-      [choseCard]: prev[choseCard] + 1
-    }));
+  function handleOpenPack(luckLevel) {
+    for (let i = 0; i < luckLevel + 1; i++) {
+      const randomNum = Math.random();
+      let randomTier;
+      if (randomNum < luckProbabilites[luckLevel][0]) {
+        randomTier = 0;
+      } else if (randomNum < luckProbabilites[luckLevel][1]) {
+        randomTier = 1;
+      } else if (randomNum < luckProbabilites[luckLevel][2]) {
+        randomTier = 2;
+      } else {
+        randomTier = 3;
+      }
+      let randomCard = Math.floor(Math.random() * tiers[randomTier].cards.length);
+      let choseCard = `${randomTier}-${randomCard}`;
+      setCardQuantities(prev => ({
+        ...prev,
+        [choseCard]: prev[choseCard] + 1
+      }));
+    }
   }
 
   return (
@@ -29,12 +42,22 @@ export default function App() {
       <div className="title">CARD REALM</div>
       <div className="panel">
         {tiers.map((tier) => (<Tier key={tier.id} tier={tier} cardQuantities={cardQuantities} />))}
-        <div className="open-packs">
-          <button className="open-packs-button" onClick={openPack}>OPEN PACKS</button>
-        </div>
+        <ButtonCardsPack openPack={handleOpenPack} />
       </div>
     </div>
   );
+}
+
+function ButtonCardsPack({ openPack }) {
+  // TODO: Delete comment
+  // eslint-disable-next-line no-unused-vars
+  const [luckLevel, setLuckLevel] = useState(0);
+
+  return (
+    <div className="open-packs">
+      <button className="open-packs-button" onClick={() => openPack(luckLevel)}>OPEN PACKS</button>
+    </div>
+  )
 }
 
 function Tier({ tier, cardQuantities }) {
