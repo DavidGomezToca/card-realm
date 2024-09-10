@@ -14,9 +14,12 @@ export default function App() {
     });
     return initialQuantities;
   });
+  const [openingPack, setOpeningPack] = useState(false);
+  const [cardsObtained, setCardsObtained] = useState([]);
 
   function handleOpenPack(luckLevel) {
-    for (let i = 0; i < luckLevel + 1; i++) {
+    setOpeningPack(true);
+    for (let i = 0; i < luckLevel + 2; i++) {
       const randomNum = Math.random();
       let randomTier;
       if (randomNum < luckProbabilites[luckLevel][0]) {
@@ -30,6 +33,7 @@ export default function App() {
       }
       let randomCard = Math.floor(Math.random() * tiers[randomTier].cards.length);
       let choseCard = `${randomTier}-${randomCard}`;
+      setCardsObtained(prev => [...prev, choseCard]);
       setCardQuantities(prev => ({
         ...prev,
         [choseCard]: prev[choseCard] + 1
@@ -37,36 +41,21 @@ export default function App() {
     }
   }
 
+  function handleCloseOpeningPack() {
+    setOpeningPack(false);
+    setCardsObtained([]);
+  }
+
   return (
     <div className="app">
       <div className="title">CARD REALM</div>
-      <div className="panel">
+      <div className="cards-collection">
         {tiers.map((tier) => (<Tier key={tier.id} tier={tier} cardQuantities={cardQuantities} />))}
-        <OpenCardsPack openPack={handleOpenPack} luckProbabilities={luckProbabilites} />
+        <OpenCardsPack openPack={handleOpenPack} luckProbabilities={luckProbabilites} disabled={openingPack} />
       </div>
+      <ShowCardsObtained openingPack={openingPack} closeOpeningPack={handleCloseOpeningPack} tiers={tiers} cardsObtained={cardsObtained} />
     </div>
   );
-}
-
-function OpenCardsPack({ openPack, luckProbabilities }) {
-  // TODO: Add Feature Update Luck Level
-  // eslint-disable-next-line no-unused-vars
-  const [luckLevel, setLuckLevel] = useState(0);
-
-  return (
-    <div className="open-packs">
-      <button className="open-packs-button" onClick={() => openPack(luckLevel)}>OPEN PACKS</button>
-      <div className='open-packs-details'>
-        <ul>
-          <li>Cards obtained by pack: <span>{luckLevel + 1}</span></li>
-          <li>Probability of Tier C: <span>{luckProbabilities[luckLevel][0] * 100}%</span></li>
-          <li>Probability of Tier U: <span>{(luckProbabilities[luckLevel][1] * 100 - luckProbabilities[luckLevel][0] * 100)}%</span></li>
-          <li>Probability of Tier R: <span>{(luckProbabilities[luckLevel][2] * 100 - luckProbabilities[luckLevel][1] * 100)}%</span></li>
-          <li>Probability of Tier SR: <span>{(100 - luckProbabilities[luckLevel][2] * 100)}%</span></li>
-        </ul>
-      </div>
-    </div>
-  )
 }
 
 function Tier({ tier, cardQuantities }) {
@@ -111,4 +100,54 @@ function CardCounter({ quantity }) {
       <div>{quantity}</div>
     </div>
   )
+}
+
+function OpenCardsPack({ openPack, luckProbabilities, disabled }) {
+  // TODO: Add Feature Update Luck Level
+  // eslint-disable-next-line no-unused-vars
+  const [luckLevel, setLuckLevel] = useState(0);
+
+  return (
+    <div className="open-packs">
+      <button className="open-packs-button" onClick={() => openPack(luckLevel)} disabled={disabled}>OPEN PACKS</button>
+      <div className='open-packs-details'>
+        <ul>
+          <li>Cards obtained by pack: <span>{luckLevel + 2}</span></li>
+          <li>Probability of Tier C: <span>{luckProbabilities[luckLevel][0] * 100}%</span></li>
+          <li>Probability of Tier U: <span>{(luckProbabilities[luckLevel][1] * 100 - luckProbabilities[luckLevel][0] * 100)}%</span></li>
+          <li>Probability of Tier R: <span>{(luckProbabilities[luckLevel][2] * 100 - luckProbabilities[luckLevel][1] * 100)}%</span></li>
+          <li>Probability of Tier SR: <span>{(100 - luckProbabilities[luckLevel][2] * 100)}%</span></li>
+        </ul>
+      </div>
+    </div>
+  )
+}
+
+function ShowCardsObtained({ openingPack, closeOpeningPack, tiers, cardsObtained }) {
+  return (
+    <div className={`cards-obtained-div ${openingPack ? "" : "hide"}`}>
+      <div className="cards-obtained-items">
+        <div className="current-cards-obtained">
+          {cardsObtained.map((card, index) => (<CardObtained key={"NC-" + index} tiers={tiers} cardId={card} />))}
+        </div>
+        <div className="close-cards-obtained-div">
+          <button className="close-cards-obtained-button" onClick={() => closeOpeningPack()}>ACCEPT</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CardObtained({ tiers, cardId }) {
+  const tier = cardId.split("-")[0];
+  const card = cardId.split("-")[1];
+  const cardName = tiers[tier].cards[card].name;
+  return (
+    <div className="card card-obtained">
+      <div className="card-obtained-img-div">
+        <img className="card-obtained-img" src={`/img/gems/${cardName}.png`} alt={`${cardName}.png`} />
+      </div>
+      <h2 className="card-title">{cardName}</h2>
+    </div>
+  );
 }

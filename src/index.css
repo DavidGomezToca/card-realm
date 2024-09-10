@@ -24,7 +24,7 @@ body::-webkit-scrollbar {
   font-weight: bold;
 }
 
-.panel {
+.cards-collection {
   background-color: rgb(112, 167, 223);
   margin: 20px;
   padding: 20px;
@@ -66,17 +66,20 @@ body::-webkit-scrollbar {
   transform: scale(1.1);
 }
 
-.card-discovered {
+.card-discovered,
+.card-obtained {
   background-color: rgb(200, 200, 200);
 }
 
-.card-discovered-img-div {
+.card-discovered-img-div,
+.card-obtained-img-div {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.card-discovered-img {
+.card-discovered-img,
+.card-obtained-img {
   width: 100%;
   height: 180px;
   border-radius: 10px;
@@ -130,6 +133,7 @@ body::-webkit-scrollbar {
   display: flex;
   align-items: center;
   font-weight: bold;
+  cursor: pointer;
 }
 
 .open-packs-button:hover {
@@ -153,4 +157,48 @@ button:focus {
 
 .open-packs-details ul li span {
   color: rgba(255, 255, 255, 0.8);
+}
+
+.cards-obtained-div {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background: rgba(50, 50, 50, 0.6);
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.close-cards-obtained-div {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.current-cards-obtained {
+  display: flex;
+}
+
+.close-cards-obtained-button {
+  font-weight: bold;
+  background-color: rgb(148, 231, 122);
+  border-radius: 10px;
+  padding: 1.2rem;
+  font-size: 1.4rem;
+  color: rgb(0, 0, 0);
+  cursor: pointer;
+  border: none;
+}
+
+.close-cards-obtained-button:hover {
+  background-color: rgb(141, 219, 102);
+  transform: scale(1.02);
+}
+
+.hide {
+  display: none;
 }
