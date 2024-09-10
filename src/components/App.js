@@ -42,20 +42,29 @@ export default function App() {
       <div className="title">CARD REALM</div>
       <div className="panel">
         {tiers.map((tier) => (<Tier key={tier.id} tier={tier} cardQuantities={cardQuantities} />))}
-        <ButtonCardsPack openPack={handleOpenPack} />
+        <OpenCardsPack openPack={handleOpenPack} luckProbabilities={luckProbabilites} />
       </div>
     </div>
   );
 }
 
-function ButtonCardsPack({ openPack }) {
-  // TODO: Delete comment
+function OpenCardsPack({ openPack, luckProbabilities }) {
+  // TODO: Add Feature Update Luck Level
   // eslint-disable-next-line no-unused-vars
   const [luckLevel, setLuckLevel] = useState(0);
 
   return (
     <div className="open-packs">
       <button className="open-packs-button" onClick={() => openPack(luckLevel)}>OPEN PACKS</button>
+      <div className='open-packs-details'>
+        <ul>
+          <li>Cards obtained by pack: <span>{luckLevel + 1}</span></li>
+          <li>Probability of Tier C: <span>{luckProbabilities[luckLevel][0] * 100}%</span></li>
+          <li>Probability of Tier U: <span>{(luckProbabilities[luckLevel][1] * 100 - luckProbabilities[luckLevel][0] * 100)}%</span></li>
+          <li>Probability of Tier R: <span>{(luckProbabilities[luckLevel][2] * 100 - luckProbabilities[luckLevel][1] * 100)}%</span></li>
+          <li>Probability of Tier SR: <span>{(100 - luckProbabilities[luckLevel][2] * 100)}%</span></li>
+        </ul>
+      </div>
     </div>
   )
 }

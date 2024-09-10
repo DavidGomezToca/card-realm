@@ -99,7 +99,7 @@ body::-webkit-scrollbar {
   width: 80%;
 }
 
-.card-counter{
+.card-counter {
   display: flex;
   justify-content: center;
   width: 60px;
@@ -113,11 +113,13 @@ body::-webkit-scrollbar {
 
 .open-packs {
   background-color: rgb(146, 89, 237);
-  padding: 20px;
+  padding: 30px;
   border-radius: 10px;
+  display: flex;
 }
 
 .open-packs-button {
+  height: 60px;
   background-color: rgb(225, 208, 95);
   border: none;
   font-size: 1.4rem;
@@ -125,9 +127,30 @@ body::-webkit-scrollbar {
   padding: 1.4rem 3.2rem;
   transition: all 0.2s;
   border-radius: 10px;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
 }
 
 .open-packs-button:hover {
   background-color: rgb(225, 190, 95);
   transform: scale(1.02);
+}
+
+button:focus {
+  outline: none;
+}
+
+.open-packs-details {
+  margin-left: 60px;
+}
+
+.open-packs-details ul li {
+  margin: 10px 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.open-packs-details ul li span {
+  color: rgba(255, 255, 255, 0.8);
 }
