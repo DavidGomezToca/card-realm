@@ -1,3 +1,20 @@
+:root {
+  --background: rgb(173, 173, 173);
+  --title: rgb(93, 205, 239);
+  --cards-collection-background: rgb(112, 167, 223);
+  --tier-background: rgb(230, 52, 52);
+  --tier-title: rgb(58, 119, 217);
+  --card-discovered-background: rgb(200, 200, 200);
+  --card-not-discovered-background: rgb(100, 100, 100);
+  --card-counter: rgb(150, 150, 150);
+  --open-packs-background: rgb(146, 89, 237);
+  --open-packs-button: rgb(225, 208, 95);
+  --open-packs-button-hover: rgb(225, 190, 95);
+  --cards-obtained-background: rgb(50, 50, 50, 0.6);
+  --close-cards-obtained-button: rgb(148, 231, 122);
+  --close-cards-obtained-button-hover: rgb(141, 219, 102);
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -6,7 +23,7 @@
 }
 
 body {
-  background-color: rgb(173, 173, 173);
+  background-color: var(--background);
 }
 
 body::-webkit-scrollbar {
@@ -18,21 +35,21 @@ body::-webkit-scrollbar {
   margin: 20px auto;
   padding: 6px 0;
   border-radius: 10px;
-  background-color: rgb(93, 205, 239);
+  background-color: var(--title);
   text-align: center;
   font-size: 2rem;
   font-weight: bold;
 }
 
 .cards-collection {
-  background-color: rgb(112, 167, 223);
+  background-color: var(--cards-collection-background);
   margin: 20px;
   padding: 20px;
   border-radius: 10px;
 }
 
 .tier {
-  background-color: rgb(230, 52, 52);
+  background-color: var(--tier-background);
   margin: 20px 0;
   padding: 10px;
   border-radius: 10px;
@@ -43,7 +60,7 @@ body::-webkit-scrollbar {
   margin: 20px auto;
   padding: 6px 0;
   border-radius: 10px;
-  background-color: rgb(58, 119, 217);
+  background-color: var(--tier-title);
   text-align: center;
   font-size: 2rem;
   font-weight: bold;
@@ -68,7 +85,7 @@ body::-webkit-scrollbar {
 
 .card-discovered,
 .card-obtained {
-  background-color: rgb(200, 200, 200);
+  background-color: var(--card-discovered-background);
 }
 
 .card-discovered-img-div,
@@ -95,7 +112,7 @@ body::-webkit-scrollbar {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgb(100, 100, 100);
+  background-color: var(--card-not-discovered-background);
 }
 
 .card-not-discovered-img {
@@ -108,14 +125,14 @@ body::-webkit-scrollbar {
   width: 60px;
   margin: 24px auto 10px;
   padding: 10px 20px;
-  background-color: rgb(150, 150, 150);
+  background-color: var(--card-counter);
   border-radius: 20px;
   font-size: 1.2rem;
   font-weight: bold;
 }
 
 .open-packs {
-  background-color: rgb(146, 89, 237);
+  background-color: var(--open-packs-background);
   padding: 30px;
   border-radius: 10px;
   display: flex;
@@ -123,7 +140,7 @@ body::-webkit-scrollbar {
 
 .open-packs-button {
   height: 60px;
-  background-color: rgb(225, 208, 95);
+  background-color: var(--open-packs-button);
   border: none;
   font-size: 1.4rem;
   font-weight: 500;
@@ -137,7 +154,7 @@ body::-webkit-scrollbar {
 }
 
 .open-packs-button:hover {
-  background-color: rgb(225, 190, 95);
+  background-color: var(--open-packs-button-hover);
   transform: scale(1.02);
 }
 
@@ -156,7 +173,7 @@ button:focus {
 }
 
 .open-packs-details ul li span {
-  color: rgba(255, 255, 255, 0.8);
+  color: white;
 }
 
 .cards-obtained-div {
@@ -165,7 +182,7 @@ button:focus {
   height: 100%;
   left: 0;
   top: 0;
-  background: rgba(50, 50, 50, 0.6);
+  background: var(--cards-obtained-background);
   z-index: 1;
   display: flex;
   justify-content: center;
@@ -185,17 +202,16 @@ button:focus {
 
 .close-cards-obtained-button {
   font-weight: bold;
-  background-color: rgb(148, 231, 122);
+  background-color: var(--close-cards-obtained-button);
   border-radius: 10px;
   padding: 1.2rem;
   font-size: 1.4rem;
-  color: rgb(0, 0, 0);
   cursor: pointer;
   border: none;
 }
 
 .close-cards-obtained-button:hover {
-  background-color: rgb(141, 219, 102);
+  background-color: var(--close-cards-obtained-button-hover);
   transform: scale(1.02);
 }
 
