@@ -18,6 +18,7 @@ export default function App() {
   const [cardsObtained, setCardsObtained] = useState([]);
   const [luckLevel, setLuckLevel] = useState(0);
   const [packsOpened, setPacksOpened] = useState(0);
+  const [levelUp, setLevelUp] = useState(false);
 
   function handleOpenPack() {
     setOpeningPack(true);
@@ -58,6 +59,7 @@ export default function App() {
     }
     if (levelUp) {
       setLuckLevel(prev => prev + 1);
+      setLevelUp(true);
     }
   }
 
@@ -75,6 +77,7 @@ export default function App() {
         <OpenCardsPack openPack={handleOpenPack} luckLevel={luckLevel} luckProbabilities={luckProbabilites} disabled={openingPack} packsOpened={packsOpened} />
       </div>
       <ShowCardsObtained openingPack={openingPack} closeOpeningPack={handleCloseOpeningPack} tiers={tiers} cardsObtained={cardsObtained} />
+      <ShowLevelUp levelUp={levelUp} setLevelUp={setLevelUp} luckLevel={luckLevel} />
     </div>
   );
 }
@@ -183,6 +186,26 @@ function CardObtained({ tiers, cardId }) {
         <img className="card-obtained-img" src={`/img/gems/${cardName}.png`} alt={`${cardName}.png`} />
       </div>
       <h2 className="card-title">{cardName}</h2>
+    </div>
+  );
+}
+
+function ShowLevelUp({ levelUp, setLevelUp, luckLevel }) {
+  return (
+    <div className={`level-up-div ${levelUp ? "" : "hide"}`}>
+      <div className="level-up-items">
+        <div className="level-up-message">
+          <h2>Level Up Luck!!</h2>
+          <p>
+            <span className="level-up-number">{luckLevel}</span>
+            <span className="level-up-sign">{">"}</span>
+            <span className="level-up-number">{luckLevel + 1}</span>
+          </p>
+        </div>
+        <div className="close-level-up-div">
+          <button className="close-level-up-button" onClick={() => setLevelUp(false)}>ACCEPT</button>
+        </div>
+      </div>
     </div>
   );
 }
