@@ -16,9 +16,12 @@ export default function App() {
   });
   const [openingPack, setOpeningPack] = useState(false);
   const [cardsObtained, setCardsObtained] = useState([]);
+  const [luckLevel, setLuckLevel] = useState(0);
+  const [packsOpened, setPacksOpened] = useState(0);
 
-  function handleOpenPack(luckLevel) {
+  function handleOpenPack() {
     setOpeningPack(true);
+    setPacksOpened(prev => prev + 1);
     for (let i = 0; i < luckLevel + 2; i++) {
       const randomNum = Math.random();
       let randomTier;
@@ -41,7 +44,25 @@ export default function App() {
     }
   }
 
+  function checkLuckLevelUp() {
+    let levelUp = false;
+    if (luckLevel < 3) {
+      for (let i = 0; i < tiers[luckLevel].cards.length; i++) {
+        if (cardQuantities[`${luckLevel}-${i}`] === 0) {
+          levelUp = false;
+          break;
+        } else {
+          levelUp = true;
+        }
+      }
+    }
+    if (levelUp) {
+      setLuckLevel(prev => prev + 1);
+    }
+  }
+
   function handleCloseOpeningPack() {
+    checkLuckLevelUp();
     setOpeningPack(false);
     setCardsObtained([]);
   }
@@ -51,7 +72,7 @@ export default function App() {
       <div className="title">CARD REALM</div>
       <div className="cards-collection">
         {tiers.map((tier) => (<Tier key={tier.id} tier={tier} cardQuantities={cardQuantities} />))}
-        <OpenCardsPack openPack={handleOpenPack} luckProbabilities={luckProbabilites} disabled={openingPack} />
+        <OpenCardsPack openPack={handleOpenPack} luckLevel={luckLevel} luckProbabilities={luckProbabilites} disabled={openingPack} packsOpened={packsOpened} />
       </div>
       <ShowCardsObtained openingPack={openingPack} closeOpeningPack={handleCloseOpeningPack} tiers={tiers} cardsObtained={cardsObtained} />
     </div>
@@ -117,21 +138,19 @@ function CardCounter({ quantity }) {
   )
 }
 
-function OpenCardsPack({ openPack, luckProbabilities, disabled }) {
-  // TODO: Add Feature Update Luck Level
-  // eslint-disable-next-line no-unused-vars
-  const [luckLevel, setLuckLevel] = useState(0);
-
+function OpenCardsPack({ openPack, luckLevel, luckProbabilities, disabled, packsOpened }) {
   return (
     <div className="open-packs">
       <button className="open-packs-button" onClick={() => openPack(luckLevel)} disabled={disabled}>OPEN PACKS</button>
       <div className='open-packs-details'>
         <ul>
+          <li>Luck Level: <span>{luckLevel < 3 ? luckLevel + 1 : "MAX"}</span></li>
           <li>Cards obtained by pack: <span>{luckLevel + 2}</span></li>
           <li>Probability of Tier C: <span>{luckProbabilities[luckLevel][0] * 100}%</span></li>
           <li>Probability of Tier U: <span>{(luckProbabilities[luckLevel][1] * 100 - luckProbabilities[luckLevel][0] * 100)}%</span></li>
           <li>Probability of Tier R: <span>{(luckProbabilities[luckLevel][2] * 100 - luckProbabilities[luckLevel][1] * 100)}%</span></li>
           <li>Probability of Tier SR: <span>{(100 - luckProbabilities[luckLevel][2] * 100)}%</span></li>
+          <li>Total open packs: <span>{packsOpened}</span></li>
         </ul>
       </div>
     </div>
