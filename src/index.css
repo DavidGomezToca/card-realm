@@ -2,9 +2,13 @@
   --background: rgb(173, 173, 173);
   --title: rgb(93, 205, 239);
   --cards-collection-background: rgb(112, 167, 223);
-  --tier-background: rgb(230, 52, 52);
+  --tier-background: rgb(230, 120, 60);
   --tier-title: rgb(58, 119, 217);
-  --card-discovered-background: rgb(200, 200, 200);
+  /* --card-discovered-background: rgb(200, 200, 200); */
+  --tier-common: rgb(100, 200, 100);
+  --tier-uncommon: rgb(100, 140, 220);
+  --tier-rare: rgb(222, 222, 100);
+  --tier-super-rare: rgb(220, 60, 60);
   --card-not-discovered-background: rgb(100, 100, 100);
   --card-counter: rgb(150, 150, 150);
   --open-packs-background: rgb(146, 89, 237);
@@ -66,6 +70,22 @@ body::-webkit-scrollbar {
   font-weight: bold;
 }
 
+.tier-common {
+  background-color: var(--tier-common);
+}
+
+.tier-uncommon {
+  background-color: var(--tier-uncommon);
+}
+
+.tier-rare {
+  background-color: var(--tier-rare);
+}
+
+.tier-super-rare {
+  background-color: var(--tier-super-rare);
+}
+
 .cards {
   display: flex;
   justify-content: center;
@@ -81,11 +101,6 @@ body::-webkit-scrollbar {
 
 .card:hover {
   transform: scale(1.1);
-}
-
-.card-discovered,
-.card-obtained {
-  background-color: var(--card-discovered-background);
 }
 
 .card-discovered-img-div,

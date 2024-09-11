@@ -63,18 +63,18 @@ function Tier({ tier, cardQuantities }) {
     <div className="tier">
       <div className="tier-title">{tier.name}</div>
       <div className="cards">
-        {tier.cards.map((card) => (<Card key={tier.id + "-" + card.id} card={card} quantity={cardQuantities[`${tier.id}-${card.id}`]} />))}
+        {tier.cards.map((card) => (<Card key={tier.id + "-" + card.id} tier={tier.id} card={card} quantity={cardQuantities[`${tier.id}-${card.id}`]} />))}
       </div>
     </div>
   );
 }
 
-function Card({ card, quantity }) {
+function Card({ tier, card, quantity }) {
   return (
     <>
       {quantity !== 0 ?
         <div>
-          <div className="card card-discovered">
+          <div className={`card ${getTierColor(tier)}`}>
             <div className="card-discovered-img-div">
               <img className="card-discovered-img" src={`/img/gems/${card.name}.png`} alt={`${card.name}.png`} />
             </div>
@@ -92,6 +92,21 @@ function Card({ card, quantity }) {
       }
     </>
   );
+}
+
+function getTierColor(tier) {
+  switch (tier) {
+    case 0:
+      return "tier-common";
+    case 1:
+      return "tier-uncommon";
+    case 2:
+      return "tier-rare";
+    case 3:
+      return "tier-super-rare";
+    default:
+      return "";
+  }
 }
 
 function CardCounter({ quantity }) {
@@ -142,8 +157,9 @@ function CardObtained({ tiers, cardId }) {
   const tier = cardId.split("-")[0];
   const card = cardId.split("-")[1];
   const cardName = tiers[tier].cards[card].name;
+
   return (
-    <div className="card card-obtained">
+    <div className={`card ${getTierColor(Number(tier))}`}>
       <div className="card-obtained-img-div">
         <img className="card-obtained-img" src={`/img/gems/${cardName}.png`} alt={`${cardName}.png`} />
       </div>
