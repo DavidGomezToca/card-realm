@@ -83,12 +83,28 @@ export default function App() {
     setCollectionPercentage(Math.round((cardsObtained / Object.keys(cardQuantities).length) * 100));
   }
 
+  function resetCollection() {
+    if (collectionPercentage === 100) {
+      setLuckLevel(0);
+      setCollectionPercentage(0);
+      setCardQuantities(() => {
+        const initialQuantities = {};
+        tiers.forEach(tier => {
+          tier.cards.forEach(card => {
+            initialQuantities[`${tier.id}-${card.id}`] = 0;
+          });
+        });
+        return initialQuantities;
+      });
+    }
+  }
+
   return (
     <div className="app">
       <div className="title">CARD REALM</div>
       <div className="cards-collection">
         {tiers.map((tier) => (<Tier key={tier.id} tier={tier} cardQuantities={cardQuantities} />))}
-        <OpenCardsPack openPack={handleOpenPack} luckLevel={luckLevel} luckProbabilities={luckProbabilites} disabled={openingPack} collectionPercentage={collectionPercentage} packsOpened={packsOpened} />
+        <OpenCardsPack openPack={handleOpenPack} luckLevel={luckLevel} luckProbabilities={luckProbabilites} openPacksDisabled={openingPack} collectionPercentage={collectionPercentage} packsOpened={packsOpened} resetCollection={resetCollection} />
       </div>
       <ShowCardsObtained openingPack={openingPack} closeOpeningPack={handleCloseOpeningPack} tiers={tiers} cardsObtained={cardsObtained} />
       <ShowLevelUp levelUp={levelUp} setLevelUp={setLevelUp} luckLevel={luckLevel} />
@@ -155,10 +171,10 @@ function CardCounter({ quantity }) {
   )
 }
 
-function OpenCardsPack({ openPack, luckLevel, luckProbabilities, disabled, collectionPercentage, packsOpened }) {
+function OpenCardsPack({ openPack, luckLevel, luckProbabilities, openPacksDisabled, collectionPercentage, packsOpened, resetCollection }) {
   return (
     <div className="open-packs">
-      <button className="open-packs-button" onClick={() => openPack(luckLevel)} disabled={disabled}>OPEN PACKS</button>
+      <button className="open-packs-button" onClick={() => openPack(luckLevel)} disabled={openPacksDisabled}>OPEN PACKS</button>
       <div className='open-packs-details'>
         <ul>
           <li>Luck Level: <span>{luckLevel < 3 ? luckLevel + 1 : "MAX"}</span></li>
@@ -170,6 +186,9 @@ function OpenCardsPack({ openPack, luckLevel, luckProbabilities, disabled, colle
           <li>Collection percentage: <span>{collectionPercentage}%</span></li>
           <li>Total open packs: <span>{packsOpened}</span></li>
         </ul>
+      </div>
+      <div className="reset-collection-div">
+        <button className={`reset-collection-button ${collectionPercentage === 100 ? "" : "button-disabled"}`} onClick={() => resetCollection()} >RESET COLLECTION</button>
       </div>
     </div>
   )

@@ -4,7 +4,6 @@
   --cards-collection-background: rgb(112, 167, 223);
   --tier-background: rgb(230, 120, 60);
   --tier-title: rgb(58, 119, 217);
-  /* --card-discovered-background: rgb(200, 200, 200); */
   --tier-common: rgb(100, 200, 100);
   --tier-uncommon: rgb(100, 140, 220);
   --tier-rare: rgb(222, 222, 100);
@@ -14,6 +13,8 @@
   --open-packs-background: rgb(146, 89, 237);
   --open-packs-button: rgb(225, 208, 95);
   --open-packs-button-hover: rgb(225, 190, 95);
+  --reset-collection-button: rgb(237, 75, 75);
+  --reset-collection-button-hover: rgb(237, 60, 75);
   --cards-obtained-background: rgb(50, 50, 50, 0.6);
   --close-cards-obtained-button: rgb(148, 231, 122);
   --close-cards-obtained-button-hover: rgb(141, 219, 102);
@@ -153,9 +154,9 @@ body::-webkit-scrollbar {
   display: flex;
 }
 
-.open-packs-button {
+.open-packs-button,
+.reset-collection-button {
   height: 60px;
-  background-color: var(--open-packs-button);
   border: none;
   font-size: 1.4rem;
   font-weight: 500;
@@ -168,13 +169,49 @@ body::-webkit-scrollbar {
   cursor: pointer;
 }
 
+.open-packs-button {
+  background-color: var(--open-packs-button);
+}
+
+.reset-collection-div {
+  margin-right: 0;
+  width: 64%;
+  position: relative;
+  float: right;
+}
+
+.reset-collection-button {
+  background-color: var(--reset-collection-button);
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.open-packs-button:hover,
+.reset-collection-button:hover {
+  transform: scale(1.02);
+}
+
 .open-packs-button:hover {
   background-color: var(--open-packs-button-hover);
-  transform: scale(1.02);
+}
+
+.reset-collection-button:hover {
+  background-color: var(--reset-collection-button-hover);
 }
 
 button:focus {
   outline: none;
+}
+
+.button-disabled {
+  background-color: grey;
+  cursor: not-allowed;
+}
+
+.button-disabled:hover {
+  background-color: grey;
+  transform: none;
 }
 
 .open-packs-details {
