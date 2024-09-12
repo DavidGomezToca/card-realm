@@ -19,6 +19,7 @@ export default function App() {
   const [luckLevel, setLuckLevel] = useState(0);
   const [packsOpened, setPacksOpened] = useState(0);
   const [levelUp, setLevelUp] = useState(false);
+  const [collectionPercentage, setCollectionPercentage] = useState(0);
 
   function handleOpenPack() {
     setOpeningPack(true);
@@ -65,8 +66,21 @@ export default function App() {
 
   function handleCloseOpeningPack() {
     checkLuckLevelUp();
+    checkCollectionPercentage();
     setOpeningPack(false);
     setCardsObtained([]);
+  }
+
+  function checkCollectionPercentage() {
+    let cardsObtained = 0;
+    for (let key in cardQuantities) {
+      console.log(key);
+      console.log(cardQuantities[key]);
+      if (cardQuantities[key] !== 0) {
+        cardsObtained++;
+      }
+    }
+    setCollectionPercentage(Math.round((cardsObtained / Object.keys(cardQuantities).length) * 100));
   }
 
   return (
@@ -74,7 +88,7 @@ export default function App() {
       <div className="title">CARD REALM</div>
       <div className="cards-collection">
         {tiers.map((tier) => (<Tier key={tier.id} tier={tier} cardQuantities={cardQuantities} />))}
-        <OpenCardsPack openPack={handleOpenPack} luckLevel={luckLevel} luckProbabilities={luckProbabilites} disabled={openingPack} packsOpened={packsOpened} />
+        <OpenCardsPack openPack={handleOpenPack} luckLevel={luckLevel} luckProbabilities={luckProbabilites} disabled={openingPack} collectionPercentage={collectionPercentage} packsOpened={packsOpened} />
       </div>
       <ShowCardsObtained openingPack={openingPack} closeOpeningPack={handleCloseOpeningPack} tiers={tiers} cardsObtained={cardsObtained} />
       <ShowLevelUp levelUp={levelUp} setLevelUp={setLevelUp} luckLevel={luckLevel} />
@@ -141,7 +155,7 @@ function CardCounter({ quantity }) {
   )
 }
 
-function OpenCardsPack({ openPack, luckLevel, luckProbabilities, disabled, packsOpened }) {
+function OpenCardsPack({ openPack, luckLevel, luckProbabilities, disabled, collectionPercentage, packsOpened }) {
   return (
     <div className="open-packs">
       <button className="open-packs-button" onClick={() => openPack(luckLevel)} disabled={disabled}>OPEN PACKS</button>
@@ -153,6 +167,7 @@ function OpenCardsPack({ openPack, luckLevel, luckProbabilities, disabled, packs
           <li>Probability of Tier U: <span>{(luckProbabilities[luckLevel][1] * 100 - luckProbabilities[luckLevel][0] * 100)}%</span></li>
           <li>Probability of Tier R: <span>{(luckProbabilities[luckLevel][2] * 100 - luckProbabilities[luckLevel][1] * 100)}%</span></li>
           <li>Probability of Tier SR: <span>{(100 - luckProbabilities[luckLevel][2] * 100)}%</span></li>
+          <li>Collection percentage: <span>{collectionPercentage}%</span></li>
           <li>Total open packs: <span>{packsOpened}</span></li>
         </ul>
       </div>
