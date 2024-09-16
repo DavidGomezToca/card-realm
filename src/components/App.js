@@ -21,6 +21,7 @@ export default function App() {
   const [levelUp, setLevelUp] = useState(false);
   const [collectionPercentage, setCollectionPercentage] = useState(0);
   const [ascensionLevel, setAscensionLevel] = useState(0);
+  const [showInformation, setShowInformation] = useState(false);
 
   function handleOpenPack() {
     setOpeningPack(true);
@@ -76,8 +77,6 @@ export default function App() {
   function checkCollectionPercentage() {
     let cardsObtained = 0;
     for (let key in cardQuantities) {
-      console.log(key);
-      console.log(cardQuantities[key]);
       if (cardQuantities[key] !== 0) {
         cardsObtained++;
       }
@@ -102,15 +101,19 @@ export default function App() {
     }
   }
 
+  // function showInformation() {
+  // }
+
   return (
     <div className="app">
       <div className="title">CARD REALM</div>
       <div className="cards-collection">
         {tiers.map((tier) => (<Tier key={tier.id} tier={tier} cardQuantities={cardQuantities} />))}
-        <OpenCardsPack openPack={handleOpenPack} luckLevel={luckLevel} luckProbabilities={luckProbabilites} openPacksDisabled={openingPack} collectionPercentage={collectionPercentage} packsOpened={packsOpened} ascend={ascend} ascensionLevel={ascensionLevel} />
+        <OpenCardsPack openPack={handleOpenPack} luckLevel={luckLevel} luckProbabilities={luckProbabilites} openPacksDisabled={openingPack} collectionPercentage={collectionPercentage} packsOpened={packsOpened} ascend={ascend} ascensionLevel={ascensionLevel} showInformation={showInformation} setShowInformation={setShowInformation} />
       </div>
       <ShowCardsObtained openingPack={openingPack} closeOpeningPack={handleCloseOpeningPack} tiers={tiers} cardsObtained={cardsObtained} />
       <ShowLevelUp levelUp={levelUp} setLevelUp={setLevelUp} luckLevel={luckLevel} />
+      <ShowInformation showInformation={showInformation} setShowInformation={setShowInformation} />
     </div>
   );
 }
@@ -174,7 +177,7 @@ function CardCounter({ quantity }) {
   )
 }
 
-function OpenCardsPack({ openPack, luckLevel, luckProbabilities, openPacksDisabled, collectionPercentage, packsOpened, ascend, ascensionLevel }) {
+function OpenCardsPack({ openPack, luckLevel, luckProbabilities, openPacksDisabled, collectionPercentage, packsOpened, ascend, ascensionLevel, setShowInformation }) {
   return (
     <div className="open-packs">
       <button className="open-packs-button" onClick={() => openPack(luckLevel)} disabled={openPacksDisabled}>OPEN PACKS</button>
@@ -193,6 +196,7 @@ function OpenCardsPack({ openPack, luckLevel, luckProbabilities, openPacksDisabl
       </div>
       <div className="reset-collection-div">
         <button className={`reset-collection-button ${collectionPercentage === 100 ? "" : "button-disabled"}`} onClick={() => ascend()} >ASCEND</button>
+        <button className="information-button" onClick={() => setShowInformation(true)} >INFORMATION</button>
       </div>
     </div>
   )
@@ -245,5 +249,26 @@ function ShowLevelUp({ levelUp, setLevelUp, luckLevel }) {
         </div>
       </div>
     </div>
+  );
+}
+
+function ShowInformation({ showInformation, setShowInformation }) {
+  return (
+    <div className={`information-div ${showInformation ? "" : "hide"}`}>
+      <div className="information-items">
+        <div className="information-message">
+          <h2>Information</h2>
+          <p>
+            Card Realm is a collectible card game where you can get cards from different tiers: Common, Uncommon, Rare and Super Rare.
+            The cards are obtained by opening packs, each pack contains a random number of cards, the number of cards is determined by the luck level and the ascension level.
+            The luck level determines the probability of obtaining cards from each tier, the higher the luck level the higher the probability of obtaining cards from higher tiers.
+            Once you have completed the collection you cand ascend, this will reset the luck level and the collection to 0, but increase permanently your ascension level.
+          </p>
+        </div>
+        <div className="close-information-div">
+          <button className="close-information-button" onClick={() => setShowInformation(false)}>ACCEPT</button>
+        </div>
+      </div>
+    </div >
   );
 }

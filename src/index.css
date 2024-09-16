@@ -155,7 +155,8 @@ body::-webkit-scrollbar {
 }
 
 .open-packs-button,
-.reset-collection-button {
+.reset-collection-button,
+.information-button {
   height: 60px;
   border: none;
   font-size: 1.4rem;
@@ -180,15 +181,25 @@ body::-webkit-scrollbar {
   float: right;
 }
 
-.reset-collection-button {
-  background-color: var(--reset-collection-button);
+.reset-collection-button,
+.information-button {
   position: absolute;
-  bottom: 0;
   right: 0;
 }
 
+.reset-collection-button {
+  background-color: var(--reset-collection-button);
+  bottom: 0;
+}
+
+.information-button {
+  background-color: var(--tier-title);
+  top: 0;
+}
+
 .open-packs-button:hover,
-.reset-collection-button:hover {
+.reset-collection-button:hover,
+.information-button:hover {
   transform: scale(1.02);
 }
 
@@ -229,7 +240,8 @@ button:focus {
 }
 
 .cards-obtained-div,
-.level-up-div {
+.level-up-div,
+.information-div {
   position: fixed;
   width: 100%;
   height: 100%;
@@ -243,7 +255,8 @@ button:focus {
 }
 
 .close-cards-obtained-div,
-.close-level-up-div {
+.close-level-up-div,
+.close-information-div {
   margin-top: 30px;
   display: flex;
   justify-content: center;
@@ -251,17 +264,20 @@ button:focus {
 }
 
 .current-cards-obtained,
-.level-up-message {
+.level-up-message,
+.information-message {
   display: flex;
 }
 
-.level-up-message {
+.level-up-message,
+.information-message {
   flex-direction: column;
   align-items: center;
   margin-bottom: 30px;
 }
 
-.level-up-message h2 {
+.level-up-message h2,
+.information-message h2 {
   font-size: 2rem;
   font-weight: bold;
   margin-bottom: 20px;
@@ -270,11 +286,19 @@ button:focus {
   padding: 8px;
 }
 
-.level-up-message p {
+.level-up-message p,
+.information-message p {
   display: flex;
   background-color: var(--tier-background);
   padding: 0 10px;
   border-radius: 40px;
+}
+
+.information-message p {
+  font-size: 1.2rem;
+  font-weight: bold;
+  width: 80%;
+  padding: 20px 40px;
 }
 
 .level-up-number {
@@ -301,7 +325,8 @@ button:focus {
 }
 
 .close-cards-obtained-button,
-.close-level-up-button {
+.close-level-up-button,
+.close-information-button {
   font-weight: bold;
   background-color: var(--close-cards-obtained-button);
   border-radius: 10px;
@@ -312,7 +337,8 @@ button:focus {
 }
 
 .close-cards-obtained-button:hover,
-.close-level-up-button:hover {
+.close-level-up-button:hover,
+.close-information-button:hover {
   background-color: var(--close-cards-obtained-button-hover);
   transform: scale(1.02);
 }
