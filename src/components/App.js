@@ -101,9 +101,6 @@ export default function App() {
     }
   }
 
-  // function showInformation() {
-  // }
-
   return (
     <div className="app">
       <div className="title">CARD REALM</div>
