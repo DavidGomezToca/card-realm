@@ -22,6 +22,7 @@ export default function App() {
   const [collectionPercentage, setCollectionPercentage] = useState(0);
   const [ascensionLevel, setAscensionLevel] = useState(0);
   const [showInformation, setShowInformation] = useState(false);
+  const [cardsObtainedIndex, setCardsObtainedIndex] = useState(0);
 
   function handleOpenPack() {
     setOpeningPack(true);
@@ -72,6 +73,7 @@ export default function App() {
     checkCollectionPercentage();
     setOpeningPack(false);
     setCardsObtained([]);
+    setCardsObtainedIndex(0);
   }
 
   function checkCollectionPercentage() {
@@ -108,7 +110,7 @@ export default function App() {
         {tiers.map((tier) => (<Tier key={tier.id} tier={tier} cardQuantities={cardQuantities} />))}
         <OpenCardsPack openPack={handleOpenPack} luckLevel={luckLevel} luckProbabilities={luckProbabilites} openPacksDisabled={openingPack} collectionPercentage={collectionPercentage} packsOpened={packsOpened} ascend={ascend} ascensionLevel={ascensionLevel} showInformation={showInformation} setShowInformation={setShowInformation} />
       </div>
-      <ShowCardsObtained openingPack={openingPack} closeOpeningPack={handleCloseOpeningPack} tiers={tiers} cardsObtained={cardsObtained} />
+      <ShowCardsObtained openingPack={openingPack} closeOpeningPack={handleCloseOpeningPack} tiers={tiers} cardsObtained={cardsObtained} cardsObtainedIndex={cardsObtainedIndex} setCardsObtainedIndex={setCardsObtainedIndex} />
       <ShowLevelUp levelUp={levelUp} setLevelUp={setLevelUp} luckLevel={luckLevel} />
       <ShowInformation showInformation={showInformation} setShowInformation={setShowInformation} />
     </div>
@@ -118,7 +120,7 @@ export default function App() {
 function Tier({ tier, cardQuantities }) {
   return (
     <div className="tier">
-      <div className="tier-title">{tier.name}</div>
+      <div className={`tier-title ${getTierColor(tier.id)}`}>{tier.name}</div>
       <div className="cards">
         {tier.cards.map((card) => (<Card key={tier.id + "-" + card.id} tier={tier.id} card={card} quantity={cardQuantities[`${tier.id}-${card.id}`]} />))}
       </div>
@@ -191,21 +193,61 @@ function OpenCardsPack({ openPack, luckLevel, luckProbabilities, openPacksDisabl
           <li>Total open packs: <span>{packsOpened}</span></li>
         </ul>
       </div>
-      <div className="reset-collection-div">
-        <button className={`reset-collection-button ${collectionPercentage === 100 ? "" : "button-disabled"}`} onClick={() => ascend()} >ASCEND</button>
+      <div className="ascend-div">
+        <button className={`ascend-button ${collectionPercentage === 100 ? "" : "button-disabled"}`} onClick={() => ascend()} >ASCEND</button>
         <button className="information-button" onClick={() => setShowInformation(true)} >INFORMATION</button>
       </div>
     </div>
   )
 }
 
-function ShowCardsObtained({ openingPack, closeOpeningPack, tiers, cardsObtained }) {
+function ShowCardsObtained({ openingPack, closeOpeningPack, tiers, cardsObtained, cardsObtainedIndex, setCardsObtainedIndex }) {
+  function nextCard() {
+    setCardsObtainedIndex((prevIndex) => {
+      if (prevIndex + 5 >= cardsObtained.length) {
+        return prevIndex;
+      }
+      return prevIndex + 5;
+    });
+  }
+
+  function prevCard() {
+    setCardsObtainedIndex((prevIndex) => {
+      if (prevIndex - 5 < 0) {
+        return 0;
+      }
+      return prevIndex - 5;
+    });
+  }
+
   return (
     <div className={`cards-obtained-div ${openingPack ? "" : "hide"}`}>
       <div className="cards-obtained-items">
-        <div className="current-cards-obtained">
-          {cardsObtained.map((card, index) => (<CardObtained key={"NC-" + index} tiers={tiers} cardId={card} />))}
-        </div>
+        {cardsObtained.length > 0 && (
+          <div className="cards-obtained-carrousel">
+            <button className={`carrousel-button prev-button ${cardsObtainedIndex === 0 ? "button-disabled" : ""}`} onClick={prevCard}>
+              {"<"}
+            </button>
+            <div className="current-cards-obtained">
+              <CardObtained key={cardsObtainedIndex} tiers={tiers} cardId={cardsObtained[cardsObtainedIndex]} />
+              {cardsObtained[cardsObtainedIndex + 1] && (
+                <CardObtained key={cardsObtainedIndex + 1} tiers={tiers} cardId={cardsObtained[cardsObtainedIndex + 1]} />
+              )}
+              {cardsObtained[cardsObtainedIndex + 2] && (
+                <CardObtained key={cardsObtainedIndex + 2} tiers={tiers} cardId={cardsObtained[cardsObtainedIndex + 2]} />
+              )}
+              {cardsObtained[cardsObtainedIndex + 3] && (
+                <CardObtained key={cardsObtainedIndex + 3} tiers={tiers} cardId={cardsObtained[cardsObtainedIndex + 3]} />
+              )}
+              {cardsObtained[cardsObtainedIndex + 4] && (
+                <CardObtained key={cardsObtainedIndex + 4} tiers={tiers} cardId={cardsObtained[cardsObtainedIndex + 4]} />
+              )}
+            </div>
+            <button className={`carrousel-button next-button ${cardsObtainedIndex + 5 >= cardsObtained.length ? "button-disabled" : ""}`} onClick={nextCard}>
+              {">"}
+            </button>
+          </div>
+        )}
         <div className="close-cards-obtained-div">
           <button className="close-cards-obtained-button" onClick={() => closeOpeningPack()}>ACCEPT</button>
         </div>

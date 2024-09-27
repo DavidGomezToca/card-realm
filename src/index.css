@@ -13,8 +13,8 @@
   --open-packs-background: rgb(146, 89, 237);
   --open-packs-button: rgb(225, 208, 95);
   --open-packs-button-hover: rgb(225, 190, 95);
-  --reset-collection-button: rgb(237, 75, 75);
-  --reset-collection-button-hover: rgb(237, 60, 75);
+  --ascend-button: rgb(237, 75, 75);
+  --ascend-button-hover: rgb(237, 60, 75);
   --cards-obtained-background: rgb(50, 50, 50, 0.6);
   --close-cards-obtained-button: rgb(148, 231, 122);
   --close-cards-obtained-button-hover: rgb(141, 219, 102);
@@ -48,10 +48,6 @@ body::-webkit-scrollbar {
 
 .title {
   background-color: var(--title);
-}
-
-.tier-title {
-  background-color: var(--tier-title);
 }
 
 .cards-collection {
@@ -153,7 +149,7 @@ body::-webkit-scrollbar {
 }
 
 .open-packs-button,
-.reset-collection-button,
+.ascend-button,
 .information-button {
   height: 60px;
   border: none;
@@ -172,20 +168,20 @@ body::-webkit-scrollbar {
   background-color: var(--open-packs-button);
 }
 
-.reset-collection-div {
+.ascend-div {
   width: 58%;
   position: relative;
   float: right;
 }
 
-.reset-collection-button,
+.ascend-button,
 .information-button {
   position: absolute;
   right: 0;
 }
 
-.reset-collection-button {
-  background-color: var(--reset-collection-button);
+.ascend-button {
+  background-color: var(--ascend-button);
   bottom: 0;
 }
 
@@ -195,7 +191,7 @@ body::-webkit-scrollbar {
 }
 
 .open-packs-button:hover,
-.reset-collection-button:hover,
+.ascend-button:hover,
 .information-button:hover {
   transform: scale(1.02);
 }
@@ -204,22 +200,12 @@ body::-webkit-scrollbar {
   background-color: var(--open-packs-button-hover);
 }
 
-.reset-collection-button:hover {
-  background-color: var(--reset-collection-button-hover);
+.ascend-button:hover {
+  background-color: var(--ascend-button-hover);
 }
 
 button:focus {
   outline: none;
-}
-
-.button-disabled {
-  background-color: grey;
-  cursor: not-allowed;
-}
-
-.button-disabled:hover {
-  background-color: grey;
-  transform: none;
 }
 
 .open-packs-details {
@@ -249,6 +235,23 @@ button:focus {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.cards-obtained-carrousel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.carrousel-button {
+  background-color: var(--tier-title);
+  font-size: 2rem;
+  font-weight: bold;
+  border-radius: 10px;
+  padding: 1rem;
+  cursor: pointer;
+  border: none;
+  margin: 0 20px;
 }
 
 .close-cards-obtained-div,
@@ -341,11 +344,57 @@ button:focus {
   transform: scale(1.02);
 }
 
+.button-disabled {
+  background-color: grey;
+  cursor: not-allowed;
+}
+
+.button-disabled:hover {
+  background-color: grey;
+  transform: none;
+}
+
 .hide {
   display: none;
 }
 
 @media (max-width: 1000px) {
+  .title,
+  .tier-title,
+  .carrousel-button,
+  .level-up-message h2,
+  .information-message h2 {
+    font-size: 1.8rem;
+  }
+
+  .card-counter,
+  .information-message p {
+    font-size: 1rem;
+  }
+
+  .open-packs-button,
+  .ascend-button,
+  .information-button,
+  .close-cards-obtained-button,
+  .close-level-up-button,
+  .close-information-button {
+    font-size: 1.2rem;
+  }
+
+  .open-packs-details ul li {
+    font-size: 1.3rem;
+  }
+
+  .level-up-number {
+    font-size: 1.6rem;
+  }
+
+  .level-up-sign {
+    font-size: 3.8rem;
+  }
+}
+
+@media (max-width: 685px) {
   .title,
   .tier-title {
     width: 220px;
@@ -358,13 +407,12 @@ button:focus {
   }
 
   .card {
-    width: 260px;
+    width: 240px;
     height: 300px;
     height: auto;
     margin: 0 auto;
   }
-
-  .card-title {
+  w .card-title {
     margin-top: 20px;
   }
 
@@ -380,7 +428,7 @@ button:focus {
   }
 
   .open-packs-button,
-  .reset-collection-button,
+  .ascend-button,
   .information-button {
     width: 100%;
     padding: 1rem;
@@ -403,13 +451,13 @@ button:focus {
     font-size: 1.2rem;
   }
 
-  .reset-collection-div {
+  .ascend-div {
     width: 100%;
     position: inherit;
     float: none;
   }
 
-  .reset-collection-button,
+  .ascend-button,
   .information-button {
     position: inherit;
     margin: 10px 0;
