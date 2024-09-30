@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import LuckData from '../data/luckData';
 import TiersData from '../data/tiersData';
 
@@ -202,21 +202,36 @@ function OpenCardsPack({ openPack, luckLevel, luckProbabilities, openPacksDisabl
 }
 
 function ShowCardsObtained({ openingPack, closeOpeningPack, tiers, cardsObtained, cardsObtainedIndex, setCardsObtainedIndex }) {
+  const [cardsToShow, setCardsToShow] = useState(5);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 685) {
+        setCardsToShow(2);
+      } else {
+        setCardsToShow(5);
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    handleResize();
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   function nextCard() {
     setCardsObtainedIndex((prevIndex) => {
-      if (prevIndex + 5 >= cardsObtained.length) {
+      if (prevIndex + cardsToShow >= cardsObtained.length) {
         return prevIndex;
       }
-      return prevIndex + 5;
+      return prevIndex + cardsToShow;
     });
   }
 
   function prevCard() {
     setCardsObtainedIndex((prevIndex) => {
-      if (prevIndex - 5 < 0) {
+      if (prevIndex - cardsToShow < 0) {
         return 0;
       }
-      return prevIndex - 5;
+      return prevIndex - cardsToShow;
     });
   }
 
@@ -229,21 +244,11 @@ function ShowCardsObtained({ openingPack, closeOpeningPack, tiers, cardsObtained
               {"<"}
             </button>
             <div className="current-cards-obtained">
-              <CardObtained key={cardsObtainedIndex} tiers={tiers} cardId={cardsObtained[cardsObtainedIndex]} />
-              {cardsObtained[cardsObtainedIndex + 1] && (
-                <CardObtained key={cardsObtainedIndex + 1} tiers={tiers} cardId={cardsObtained[cardsObtainedIndex + 1]} />
-              )}
-              {cardsObtained[cardsObtainedIndex + 2] && (
-                <CardObtained key={cardsObtainedIndex + 2} tiers={tiers} cardId={cardsObtained[cardsObtainedIndex + 2]} />
-              )}
-              {cardsObtained[cardsObtainedIndex + 3] && (
-                <CardObtained key={cardsObtainedIndex + 3} tiers={tiers} cardId={cardsObtained[cardsObtainedIndex + 3]} />
-              )}
-              {cardsObtained[cardsObtainedIndex + 4] && (
-                <CardObtained key={cardsObtainedIndex + 4} tiers={tiers} cardId={cardsObtained[cardsObtainedIndex + 4]} />
-              )}
+              {cardsObtained.slice(cardsObtainedIndex, cardsObtainedIndex + cardsToShow).map((cardId, index) => (
+                <CardObtained key={cardsObtainedIndex + index} tiers={tiers} cardId={cardId} />
+              ))}
             </div>
-            <button className={`carrousel-button next-button ${cardsObtainedIndex + 5 >= cardsObtained.length ? "button-disabled" : ""}`} onClick={nextCard}>
+            <button className={`carrousel-button next-button ${cardsObtainedIndex + cardsToShow >= cardsObtained.length ? "button-disabled" : ""}`} onClick={nextCard}>
               {">"}
             </button>
           </div>
