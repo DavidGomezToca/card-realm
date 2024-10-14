@@ -10,7 +10,7 @@
 
 - **STACK :**
 
-  - **Card Realm** : `0.21.0`
+  - **Card Realm** : `1.0.0`
   - **React** : `18.3.1`
   - **React Dom** : `18.3.1`
 
@@ -26,3 +26,4 @@
 
   - **Author : [David Gómez](https://github.com/DavidGomezToca)**
   - **Resources : [Flaticon](https://www.flaticon.es)**
+  - **Resources : [Freepik](https://www.freepik.es)**

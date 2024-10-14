@@ -1,7 +1,8 @@
 :root {
-  --background: rgb(173, 173, 173);
-  --title: rgb(93, 205, 239);
-  --cards-collection-background: rgb(112, 167, 223);
+  --background: rgb(196, 196, 196);
+  --title-decorations: rgb(89, 22, 155);
+  --title-background: rgb(185, 150, 197);
+  --cards-collection-background: rgb(112, 167, 223, 0.6);
   --tier-background: rgb(230, 120, 60);
   --tier-title: rgb(58, 119, 217);
   --tier-common: rgb(100, 200, 100);
@@ -28,14 +29,54 @@
 }
 
 body {
-  background-color: var(--background);
+  background-image: url(../public/background.png);
+  background-repeat: repeat;
 }
 
 body::-webkit-scrollbar {
   display: none;
 }
 
-.title,
+.title {
+  font-size: 2.8rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  width: 340px;
+  text-align: center;
+  margin: 40px auto;
+  white-space: nowrap;
+  padding: 20px;
+  border-top-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  position: relative;
+  background-color: var(--title-background);
+}
+
+.title:before,
+.title:after {
+  background-color: var(--title-decorations);
+  content: "";
+  display: block;
+  width: 140px;
+  height: 6px;
+  position: absolute;
+}
+
+.title:before {
+  top: 0;
+  left: 0;
+  animation: moveInFromLeft 1.5s forwards;
+  border-bottom-right-radius: 10px;
+}
+
+.title:after {
+  bottom: 0;
+  right: 0;
+  animation: moveInFromRight 1.5s forwards;
+  border-top-left-radius: 10px;
+}
+
 .tier-title {
   width: 300px;
   margin: 20px auto;
@@ -44,10 +85,6 @@ body::-webkit-scrollbar {
   text-align: center;
   font-size: 2rem;
   font-weight: bold;
-}
-
-.title {
-  background-color: var(--title);
 }
 
 .cards-collection {
@@ -59,7 +96,7 @@ body::-webkit-scrollbar {
 
 .tier {
   background-color: var(--tier-background);
-  margin: 20px 0;
+  margin: 40px 0;
   padding: 10px;
   border-radius: 10px;
 }
@@ -356,6 +393,24 @@ button:focus {
 
 .hide {
   display: none;
+}
+
+@keyframes moveInFromLeft {
+  0% {
+    left: -100vw;
+  }
+  100% {
+    left: 0;
+  }
+}
+
+@keyframes moveInFromRight {
+  0% {
+    right: -100vw;
+  }
+  100% {
+    right: 0;
+  }
 }
 
 @media (max-width: 1000px) {
