@@ -1,111 +1,112 @@
-import { useState, useEffect } from 'react';
-import LuckData from '../data/luckData';
-import TiersData from '../data/tiersData';
+import { useState, useEffect } from "react"
+import LuckData from "../data/luckData"
+import TiersData from "../data/tiersData"
 
 export default function App() {
-  const luckProbabilites = LuckData.luckProbabilities;
-  const tiers = TiersData.tiers;
+  const luckProbabilites = LuckData.luckProbabilities
+  const tiers = TiersData.tiers
   const [cardQuantities, setCardQuantities] = useState(() => {
-    const initialQuantities = {};
+    const initialQuantities = {}
     tiers.forEach(tier => {
       tier.cards.forEach(card => {
-        initialQuantities[`${tier.id}-${card.id}`] = 0;
-      });
-    });
-    return initialQuantities;
-  });
-  const [openingPack, setOpeningPack] = useState(false);
-  const [cardsObtained, setCardsObtained] = useState([]);
-  const [luckLevel, setLuckLevel] = useState(0);
-  const [packsOpened, setPacksOpened] = useState(0);
-  const [levelUp, setLevelUp] = useState(false);
-  const [collectionPercentage, setCollectionPercentage] = useState(0);
-  const [ascensionLevel, setAscensionLevel] = useState(0);
-  const [showInformation, setShowInformation] = useState(false);
-  const [cardsObtainedIndex, setCardsObtainedIndex] = useState(0);
+        initialQuantities[`${tier.id}-${card.id}`] = 0
+      })
+    })
+    return initialQuantities
+  })
+  const [openingPack, setOpeningPack] = useState(false)
+  const [cardsObtained, setCardsObtained] = useState([])
+  const [luckLevel, setLuckLevel] = useState(0)
+  const [packsOpened, setPacksOpened] = useState(0)
+  const [levelUp, setLevelUp] = useState(false)
+  const [collectionPercentage, setCollectionPercentage] = useState(0)
+  const [ascensionLevel, setAscensionLevel] = useState(0)
+  const [showInformation, setShowInformation] = useState(false)
+  const [cardsObtainedIndex, setCardsObtainedIndex] = useState(0)
 
   function handleOpenPack() {
-    setOpeningPack(true);
-    setPacksOpened(prev => prev + 1);
-    const cardsToObtain = luckLevel + 2 + ascensionLevel;
+    setOpeningPack(true)
+    setPacksOpened(prev => prev + 1)
+    const cardsToObtain = luckLevel + 2 + ascensionLevel
     for (let i = 0; i < cardsToObtain; i++) {
-      const randomNum = Math.random();
-      let randomTier;
+      const randomNum = Math.random()
+      let randomTier
       if (randomNum < luckProbabilites[luckLevel][0]) {
-        randomTier = 0;
+        randomTier = 0
       } else if (randomNum < luckProbabilites[luckLevel][1]) {
-        randomTier = 1;
+        randomTier = 1
       } else if (randomNum < luckProbabilites[luckLevel][2]) {
-        randomTier = 2;
+        randomTier = 2
       } else {
-        randomTier = 3;
+        randomTier = 3
       }
-      let randomCard = Math.floor(Math.random() * tiers[randomTier].cards.length);
-      let choseCard = `${randomTier}-${randomCard}`;
-      setCardsObtained(prev => [...prev, choseCard]);
+      let randomCard = Math.floor(Math.random() * tiers[randomTier].cards.length)
+      let choseCard = `${randomTier}-${randomCard}`
+      setCardsObtained(prev => [...prev, choseCard])
       setCardQuantities(prev => ({
         ...prev,
         [choseCard]: prev[choseCard] + 1
-      }));
+      }))
     }
   }
 
   function checkLuckLevelUp() {
-    let levelUp = false;
+    let levelUp = false
     if (luckLevel < 3) {
       for (let i = 0; i < tiers[luckLevel].cards.length; i++) {
         if (cardQuantities[`${luckLevel}-${i}`] === 0) {
-          levelUp = false;
-          break;
+          levelUp = false
+          break
         } else {
-          levelUp = true;
+          levelUp = true
         }
       }
     }
     if (levelUp) {
-      setLuckLevel(prev => prev + 1);
-      setLevelUp(true);
+      setLuckLevel(prev => prev + 1)
+      setLevelUp(true)
     }
   }
 
   function handleCloseOpeningPack() {
-    checkLuckLevelUp();
-    checkCollectionPercentage();
-    setOpeningPack(false);
-    setCardsObtained([]);
-    setCardsObtainedIndex(0);
+    checkLuckLevelUp()
+    checkCollectionPercentage()
+    setOpeningPack(false)
+    setCardsObtained([])
+    setCardsObtainedIndex(0)
   }
 
   function checkCollectionPercentage() {
-    let cardsObtained = 0;
+    let cardsObtained = 0
     for (let key in cardQuantities) {
       if (cardQuantities[key] !== 0) {
-        cardsObtained++;
+        cardsObtained++
       }
     }
-    setCollectionPercentage(Math.round((cardsObtained / Object.keys(cardQuantities).length) * 100));
+    setCollectionPercentage(Math.round((cardsObtained / Object.keys(cardQuantities).length) * 100))
   }
 
   function ascend() {
     if (collectionPercentage === 100) {
-      setAscensionLevel(prev => prev + 1);
-      setLuckLevel(0);
-      setCollectionPercentage(0);
+      setAscensionLevel(prev => prev + 1)
+      setLuckLevel(0)
+      setCollectionPercentage(0)
       setCardQuantities(() => {
-        const initialQuantities = {};
+        const initialQuantities = {}
         tiers.forEach(tier => {
           tier.cards.forEach(card => {
-            initialQuantities[`${tier.id}-${card.id}`] = 0;
-          });
-        });
-        return initialQuantities;
-      });
+            initialQuantities[`${tier.id}-${card.id}`] = 0
+          })
+        })
+        return initialQuantities
+      })
     }
   }
 
   return (
     <div className="app">
       <div className="title">CARD REALM</div>
+      <GoToInfo />
       <div className="cards-collection">
         {tiers.map((tier) => (<Tier key={tier.id} tier={tier} cardQuantities={cardQuantities} />))}
         <OpenCardsPack openPack={handleOpenPack} luckLevel={luckLevel} luckProbabilities={luckProbabilites} openPacksDisabled={openingPack} collectionPercentage={collectionPercentage} packsOpened={packsOpened} ascend={ascend} ascensionLevel={ascensionLevel} showInformation={showInformation} setShowInformation={setShowInformation} />
@@ -114,7 +115,15 @@ export default function App() {
       <ShowLevelUp levelUp={levelUp} setLevelUp={setLevelUp} luckLevel={luckLevel} />
       <ShowInformation showInformation={showInformation} setShowInformation={setShowInformation} />
     </div>
-  );
+  )
+}
+
+function GoToInfo() {
+  return (
+    <a className="go-to-info" href={"#info"}>
+      <i className="fa-solid fa-info" />
+    </a>
+  )
 }
 
 function Tier({ tier, cardQuantities }) {
@@ -125,7 +134,7 @@ function Tier({ tier, cardQuantities }) {
         {tier.cards.map((card) => (<Card key={tier.id + "-" + card.id} tier={tier.id} card={card} quantity={cardQuantities[`${tier.id}-${card.id}`]} />))}
       </div>
     </div>
-  );
+  )
 }
 
 function Card({ tier, card, quantity }) {
@@ -150,21 +159,21 @@ function Card({ tier, card, quantity }) {
         </div>
       }
     </>
-  );
+  )
 }
 
 function getTierColor(tier) {
   switch (tier) {
     case 0:
-      return "tier-common";
+      return "tier-common"
     case 1:
-      return "tier-uncommon";
+      return "tier-uncommon"
     case 2:
-      return "tier-rare";
+      return "tier-rare"
     case 3:
-      return "tier-super-rare";
+      return "tier-super-rare"
     default:
-      return "";
+      return ""
   }
 }
 
@@ -178,9 +187,9 @@ function CardCounter({ quantity }) {
 
 function OpenCardsPack({ openPack, luckLevel, luckProbabilities, openPacksDisabled, collectionPercentage, packsOpened, ascend, ascensionLevel, setShowInformation }) {
   return (
-    <div className="open-packs">
+    <div id="info" className="open-packs">
       <button className="open-packs-button" onClick={() => openPack(luckLevel)} disabled={openPacksDisabled}>OPEN PACKS</button>
-      <div className='open-packs-details'>
+      <div className="open-packs-details">
         <ul>
           <li>Luck Level: <span>{luckLevel < 3 ? luckLevel + 1 : "MAX"}</span></li>
           <li>Ascension Level: <span>{ascensionLevel}</span></li>
@@ -202,37 +211,37 @@ function OpenCardsPack({ openPack, luckLevel, luckProbabilities, openPacksDisabl
 }
 
 function ShowCardsObtained({ openingPack, closeOpeningPack, tiers, cardsObtained, cardsObtainedIndex, setCardsObtainedIndex }) {
-  const [cardsToShow, setCardsToShow] = useState(5);
+  const [cardsToShow, setCardsToShow] = useState(5)
 
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 685) {
-        setCardsToShow(2);
+        setCardsToShow(2)
       } else {
-        setCardsToShow(5);
+        setCardsToShow(5)
       }
-    };
-    window.addEventListener('resize', handleResize);
-    handleResize();
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+    }
+    window.addEventListener("resize", handleResize)
+    handleResize()
+    return () => window.removeEventListener("resize", handleResize)
+  }, [])
 
   function nextCard() {
     setCardsObtainedIndex((prevIndex) => {
       if (prevIndex + cardsToShow >= cardsObtained.length) {
-        return prevIndex;
+        return prevIndex
       }
-      return prevIndex + cardsToShow;
-    });
+      return prevIndex + cardsToShow
+    })
   }
 
   function prevCard() {
     setCardsObtainedIndex((prevIndex) => {
       if (prevIndex - cardsToShow < 0) {
-        return 0;
+        return 0
       }
-      return prevIndex - cardsToShow;
-    });
+      return prevIndex - cardsToShow
+    })
   }
 
   return (
@@ -258,13 +267,13 @@ function ShowCardsObtained({ openingPack, closeOpeningPack, tiers, cardsObtained
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 function CardObtained({ tiers, cardId }) {
-  const tier = cardId.split("-")[0];
-  const card = cardId.split("-")[1];
-  const cardName = tiers[tier].cards[card].name;
+  const tier = cardId.split("-")[0]
+  const card = cardId.split("-")[1]
+  const cardName = tiers[tier].cards[card].name
 
   return (
     <div className={`card ${getTierColor(Number(tier))}`}>
@@ -273,7 +282,7 @@ function CardObtained({ tiers, cardId }) {
       </div>
       <h2 className="card-title">{cardName}</h2>
     </div>
-  );
+  )
 }
 
 function ShowLevelUp({ levelUp, setLevelUp, luckLevel }) {
@@ -293,7 +302,7 @@ function ShowLevelUp({ levelUp, setLevelUp, luckLevel }) {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 function ShowInformation({ showInformation, setShowInformation }) {
@@ -314,5 +323,5 @@ function ShowInformation({ showInformation, setShowInformation }) {
         </div>
       </div>
     </div >
-  );
+  )
 }
