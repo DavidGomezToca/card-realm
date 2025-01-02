@@ -106,7 +106,7 @@ export default function App() {
   return (
     <div className="app">
       <div className="title">CARD REALM</div>
-      <GoToInfo />
+      <Information setShowInformation={setShowInformation} className={"information-button-top"} />
       <div className="cards-collection">
         {tiers.map((tier) => (<Tier key={tier.id} tier={tier} cardQuantities={cardQuantities} />))}
         <OpenCardsPack openPack={handleOpenPack} luckLevel={luckLevel} luckProbabilities={luckProbabilites} openPacksDisabled={openingPack} collectionPercentage={collectionPercentage} packsOpened={packsOpened} ascend={ascend} ascensionLevel={ascensionLevel} showInformation={showInformation} setShowInformation={setShowInformation} />
@@ -118,11 +118,11 @@ export default function App() {
   )
 }
 
-function GoToInfo() {
+function Information({ setShowInformation, className }) {
   return (
-    <a className="go-to-info" href={"#info"}>
+    <div className={`information-button ${className}`} onClick={() => setShowInformation(true)}>
       <i className="fa-solid fa-info" />
-    </a>
+    </div>
   )
 }
 
@@ -204,7 +204,7 @@ function OpenCardsPack({ openPack, luckLevel, luckProbabilities, openPacksDisabl
       </div>
       <div className="ascend-div">
         <button className={`ascend-button ${collectionPercentage === 100 ? "" : "button-disabled"}`} onClick={() => ascend()} >ASCEND</button>
-        <button className="information-button" onClick={() => setShowInformation(true)} >INFORMATION</button>
+        <Information setShowInformation={setShowInformation} className={"information-button-bottom"} />
       </div>
     </div>
   )

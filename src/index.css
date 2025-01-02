@@ -190,8 +190,7 @@ body::-webkit-scrollbar {
 }
 
 .open-packs-button,
-.ascend-button,
-.information-button {
+.ascend-button {
   height: 60px;
   border: none;
   font-size: 1.4rem;
@@ -212,11 +211,10 @@ body::-webkit-scrollbar {
 .ascend-div {
   width: 58%;
   position: relative;
-  float: right;
 }
 
-.ascend-button,
-.information-button {
+.information-button-bottom,
+.ascend-button {
   position: absolute;
   right: 0;
 }
@@ -226,14 +224,8 @@ body::-webkit-scrollbar {
   bottom: 0;
 }
 
-.information-button {
-  background-color: var(--tier-title);
-  top: 0;
-}
-
 .open-packs-button:hover,
-.ascend-button:hover,
-.information-button:hover {
+.ascend-button:hover {
   transform: scale(1.02);
 }
 
@@ -399,15 +391,12 @@ button:focus {
   display: none;
 }
 
-.go-to-info {
+.information-button {
   width: 46px;
   height: 46px;
-  position: fixed;
   display: flex;
   justify-content: center;
   align-items: center;
-  top: 0;
-  right: 0;
   margin: 20px;
   padding: 10px;
   background-color: var(--tier-title);
@@ -423,9 +412,15 @@ button:focus {
   transition: 0.4s;
 }
 
-.go-to-info:hover {
+.information-button:hover {
   transform: scale(1.3);
   color: white;
+}
+
+.information-button-top {
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 
 @keyframes moveInFromLeft {
@@ -463,7 +458,6 @@ button:focus {
 
   .open-packs-button,
   .ascend-button,
-  .information-button,
   .close-cards-obtained-button,
   .close-level-up-button,
   .close-information-button {
@@ -517,8 +511,7 @@ button:focus {
   }
 
   .open-packs-button,
-  .ascend-button,
-  .information-button {
+  .ascend-button {
     width: 100%;
     padding: 1rem;
     font-size: 1.2rem;
@@ -546,8 +539,8 @@ button:focus {
     float: none;
   }
 
-  .ascend-button,
-  .information-button {
+  .information-button-bottom,
+  .ascend-button {
     position: inherit;
     margin: 10px 0;
   }
