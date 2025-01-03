@@ -535,14 +535,13 @@ button:focus {
 
   .ascend-div {
     width: 100%;
-    position: inherit;
     float: none;
   }
 
   .information-button-bottom,
   .ascend-button {
     position: inherit;
-    margin: 10px 0;
+    margin: 20px auto;
   }
 
   .level-up-number {
