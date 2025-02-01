@@ -307,19 +307,21 @@ function ShowLevelUp({ levelUp, setLevelUp, luckLevel }) {
 
 function ShowInformation({ showInformation, setShowInformation }) {
   return (
-    <div className={`information-div ${showInformation ? "" : "hide"}`}>
-      <div className="information-items">
-        <div className="information-message">
-          <h2>Information</h2>
-          <p>
-            Card Realm is a collectible card game where you can get cards from different tiers: Common, Uncommon, Rare and Super Rare.
-            The cards are obtained by opening packs, each pack contains a random number of cards, the number of cards is determined by the luck level and the ascension level.
-            The luck level determines the probability of obtaining cards from each tier, the higher the luck level the higher the probability of obtaining cards from higher tiers.
-            Once you have completed the collection you cand ascend, this will reset the luck level and the collection to 0, but increase permanently your ascension level.
-          </p>
-        </div>
-        <div className="close-information-div">
-          <button className="close-information-button" onClick={() => setShowInformation(false)}>ACCEPT</button>
+    <div className={`information-container-div ${showInformation ? "" : "hide"}`}>
+      <div className="information-div">
+        <div className="information-items">
+          <div className="information-message">
+            <h2>Information</h2>
+            <p>
+              Card Realm is a collectible card game where you can get cards from different tiers: Common, Uncommon, Rare and Super Rare.<br /><br />
+              The cards are obtained by opening packs, each pack contains a random number of cards, the number of cards is determined by the luck level and the ascension level.<br /><br />
+              The luck level determines the probability of obtaining cards from each tier, the higher the luck level the higher the probability of obtaining cards from higher tiers.<br /><br />
+              Once you have completed the collection you cand ascend, this will reset the luck level and the collection to 0, but increase permanently your ascension level.
+            </p>
+          </div>
+          <div className="close-information-div">
+            <button className="close-information-button" onClick={() => setShowInformation(false)}>ACCEPT</button>
+          </div>
         </div>
       </div>
     </div >

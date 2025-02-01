@@ -17,8 +17,8 @@
   --ascend-button: rgb(237, 75, 75);
   --ascend-button-hover: rgb(237, 60, 75);
   --cards-obtained-background: rgb(50, 50, 50, 0.6);
-  --close-cards-obtained-button: rgb(148, 231, 122);
-  --close-cards-obtained-button-hover: rgb(141, 219, 102);
+  --close-cards-obtained-button: rgb(155, 225, 140);
+  --close-cards-obtained-button-hover: rgb(140, 210, 125);
 }
 
 * {
@@ -137,6 +137,7 @@ body::-webkit-scrollbar {
 
 .card:hover {
   transform: scale(1.1);
+  cursor: pointer;
 }
 
 .card-discovered-img-div,
@@ -257,7 +258,7 @@ button:focus {
 
 .cards-obtained-div,
 .level-up-div,
-.information-div {
+.information-container-div {
   position: fixed;
   width: 100%;
   height: 100%;
@@ -268,6 +269,13 @@ button:focus {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.information-div {
+  width: 50%;
+  padding: 30px 0;
+  border-radius: 20px;
+  background-color: #aec6cf;
 }
 
 .cards-obtained-carrousel {
@@ -441,6 +449,12 @@ button:focus {
   }
 }
 
+@media (max-width: 1300px) {
+  .information-div {
+    width: 60%;
+  }
+}
+
 @media (max-width: 1000px) {
   .title,
   .tier-title,
@@ -515,6 +529,10 @@ button:focus {
     width: 100%;
     padding: 1rem;
     font-size: 1.2rem;
+  }
+
+  .information-div {
+    width: 80%;
   }
 
   .close-cards-obtained-button,
