@@ -1,10 +1,28 @@
-import { useState, useEffect } from "react"
 import LuckData from "../data/luckData"
 import TiersData from "../data/tiersData"
+import { useState, useEffect } from "react"
 
+/**
+ * @component App.
+ * @returns {JSX.Element} - The App component.
+ */
 export default function App() {
-  const luckProbabilites = LuckData.luckProbabilities
+  /**
+   * The Luck Probabilities list.
+   * @type {object}.
+   */
+  const luckProbabilities = LuckData.luckProbabilities
+
+  /**
+   * The tiers list.
+   * @type {object}.
+   */
   const tiers = TiersData.tiers
+
+  /**
+   * The cards quantities list.
+   * @type {object}.
+   */
   const [cardQuantities, setCardQuantities] = useState(() => {
     const initialQuantities = {}
     tiers.forEach(tier => {
@@ -14,28 +32,78 @@ export default function App() {
     })
     return initialQuantities
   })
+
+  /**
+   * Check if a pack is being opened.
+   * @type {boolean, function}.
+   */
   const [openingPack, setOpeningPack] = useState(false)
+
+  /**
+   * The cards obtained list.
+   * @type {object, function}.
+   */
   const [cardsObtained, setCardsObtained] = useState([])
+
+  /**
+   * The luck level.
+   * @type {number, function}.
+   */
   const [luckLevel, setLuckLevel] = useState(0)
+
+  /**
+   * The quantity of packs opened.
+   * @type {number, function}.
+   */
   const [packsOpened, setPacksOpened] = useState(0)
+
+  /**
+   * Check if the luck level must increase.
+   * @type {boolean, function}.
+   */
   const [levelUp, setLevelUp] = useState(false)
+
+  /**
+   * The percentage of the collection obtained.
+   * @type {number, function}.
+   */
   const [collectionPercentage, setCollectionPercentage] = useState(0)
+
+  /**
+   * The ascension level.
+   * @type {number, function}.
+   */
   const [ascensionLevel, setAscensionLevel] = useState(0)
+
+  /**
+   * Check if the information must be shown.
+   * @type {boolean, function}.
+   */
   const [showInformation, setShowInformation] = useState(false)
+
+  /**
+   * The index uppon wich the cards obtained are shown.
+   * @type {number, function}.
+   */
   const [cardsObtainedIndex, setCardsObtainedIndex] = useState(0)
 
+  /**
+   * Handle the opening of a pack.
+   */
   function handleOpenPack() {
     setOpeningPack(true)
+    // Update the number of packs opened.
     setPacksOpened(prev => prev + 1)
+    // Obtain the cards.
     const cardsToObtain = luckLevel + 2 + ascensionLevel
     for (let i = 0; i < cardsToObtain; i++) {
       const randomNum = Math.random()
       let randomTier
-      if (randomNum < luckProbabilites[luckLevel][0]) {
+      if (randomNum < luckProbabilities[luckLevel][0]) {
         randomTier = 0
-      } else if (randomNum < luckProbabilites[luckLevel][1]) {
+      } else if (randomNum < luckProbabilities[luckLevel][1]) {
         randomTier = 1
-      } else if (randomNum < luckProbabilites[luckLevel][2]) {
+      } else if (randomNum < luckProbabilities[luckLevel][2]) {
         randomTier = 2
       } else {
         randomTier = 3
@@ -50,6 +118,9 @@ export default function App() {
     }
   }
 
+  /**
+   * Check if the luck level must increase.
+   */
   function checkLuckLevelUp() {
     let levelUp = false
     if (luckLevel < 3) {
@@ -62,12 +133,16 @@ export default function App() {
         }
       }
     }
+    // Increase the luck level if necessary.
     if (levelUp) {
       setLuckLevel(prev => prev + 1)
       setLevelUp(true)
     }
   }
 
+  /**
+   * Handle the closing of the opening pack.
+   */
   function handleCloseOpeningPack() {
     checkLuckLevelUp()
     checkCollectionPercentage()
@@ -76,6 +151,9 @@ export default function App() {
     setCardsObtainedIndex(0)
   }
 
+  /**
+   * Check the collection percentage.
+   */
   function checkCollectionPercentage() {
     let cardsObtained = 0
     for (let key in cardQuantities) {
@@ -86,7 +164,11 @@ export default function App() {
     setCollectionPercentage(Math.round((cardsObtained / Object.keys(cardQuantities).length) * 100))
   }
 
+  /**
+   * Handle the ascension.
+   */
   function ascend() {
+    // If the collection is completed, ascend.
     if (collectionPercentage === 100) {
       setAscensionLevel(prev => prev + 1)
       setLuckLevel(0)
@@ -109,7 +191,7 @@ export default function App() {
       <Information setShowInformation={setShowInformation} className={"information-button-top"} />
       <div className="cards-collection">
         {tiers.map((tier) => (<Tier key={tier.id} tier={tier} cardQuantities={cardQuantities} />))}
-        <OpenCardsPack openPack={handleOpenPack} luckLevel={luckLevel} luckProbabilities={luckProbabilites} openPacksDisabled={openingPack} collectionPercentage={collectionPercentage} packsOpened={packsOpened} ascend={ascend} ascensionLevel={ascensionLevel} showInformation={showInformation} setShowInformation={setShowInformation} />
+        <OpenCardsPack openPack={handleOpenPack} luckLevel={luckLevel} luckProbabilities={luckProbabilities} openPacksDisabled={openingPack} collectionPercentage={collectionPercentage} packsOpened={packsOpened} ascend={ascend} ascensionLevel={ascensionLevel} showInformation={showInformation} setShowInformation={setShowInformation} />
       </div>
       <ShowCardsObtained openingPack={openingPack} closeOpeningPack={handleCloseOpeningPack} tiers={tiers} cardsObtained={cardsObtained} cardsObtainedIndex={cardsObtainedIndex} setCardsObtainedIndex={setCardsObtainedIndex} />
       <ShowLevelUp levelUp={levelUp} setLevelUp={setLevelUp} luckLevel={luckLevel} />
@@ -118,6 +200,12 @@ export default function App() {
   )
 }
 
+/**
+ * @component Information.
+ * @param {function} setShowInformation - Sets the showInformation.
+ * @param {string} className - The className of the component.
+ * @returns {JSX.Element} - The Information component.
+ */
 function Information({ setShowInformation, className }) {
   return (
     <div className={`information-button ${className}`} onClick={() => setShowInformation(true)}>
@@ -126,6 +214,12 @@ function Information({ setShowInformation, className }) {
   )
 }
 
+/**
+ * @component Tier.
+ * @param {object} tier - The tier.
+ * @param {object} cardQuantities - The Card Quantities list.
+ * @returns {JSX.Element} - The Tier component.
+ */
 function Tier({ tier, cardQuantities }) {
   return (
     <div className="tier">
@@ -137,6 +231,13 @@ function Tier({ tier, cardQuantities }) {
   )
 }
 
+/**
+ * @component Card.
+ * @param {number} tier - The tier of the card.
+ * @param {object} card - The Card.
+ * @param {number} quantity - The quantity of the card.
+ * @returns {JSX.Element} - The Card component.
+ */
 function Card({ tier, card, quantity }) {
   return (
     <>
@@ -162,6 +263,11 @@ function Card({ tier, card, quantity }) {
   )
 }
 
+/**
+ * Get the color of the tier.
+ * @param {number} tier - The tier target.
+ * @returns {string} - The class name of the tier.
+ */
 function getTierColor(tier) {
   switch (tier) {
     case 0:
@@ -177,6 +283,11 @@ function getTierColor(tier) {
   }
 }
 
+/**
+ * @component CardCounter.
+ * @param {number} quantity - The quantity of the card.
+ * @returns {JSX.Element} - The CardCouner component.
+ */
 function CardCounter({ quantity }) {
   return (
     <div className="card-counter">
@@ -185,6 +296,19 @@ function CardCounter({ quantity }) {
   )
 }
 
+/**
+ * @component OpenCardsPack.
+ * @param {function} openPack - Open a pack.
+ * @param {number} luckLevel - The luck level.
+ * @param {object} luckProbabilities - The luck probabilities list.
+ * @param {boolean} openPacksDisabled - Check if the open packs button is disabled.
+ * @param {number} collectionPercentage - The percentage of the collection obtained.
+ * @param {number} packsOpened - The quantity of packs opened.
+ * @param {function} ascend - Ascend the player.
+ * @param {number} ascensionLevel - The ascension level.
+ * @param {function} setShowInformation - Sets the showInformation.
+ * @returns {JSX.Element} - The Open Cards Pack component.
+ */
 function OpenCardsPack({ openPack, luckLevel, luckProbabilities, openPacksDisabled, collectionPercentage, packsOpened, ascend, ascensionLevel, setShowInformation }) {
   return (
     <div id="info" className="open-packs">
@@ -210,9 +334,27 @@ function OpenCardsPack({ openPack, luckLevel, luckProbabilities, openPacksDisabl
   )
 }
 
+/**
+ * @component ShowCardsObtained.
+ * @param {function} openingPack - Check if a pack is being opened.
+ * @param {function} closeOpeningPack - Close the opening pack.
+ * @param {object} tiers - The tiers list.
+ * @param {object} cardsObtained - The cards obtained list.
+ * @param {number} cardsObtainedIndex - The index uppon wich the cards obtained are shown.
+ * @param {function} setCardsObtainedIndex - Sets the cardsObtainedIndex.
+ * @returns {JSX.Element} - The Show Cards Obtained component.
+ */
 function ShowCardsObtained({ openingPack, closeOpeningPack, tiers, cardsObtained, cardsObtainedIndex, setCardsObtainedIndex }) {
+  /**
+   * The quantity of cards to show.
+   * @type {number, function}.
+   */
   const [cardsToShow, setCardsToShow] = useState(5)
 
+
+  /**
+   * @effect Resize event listener.
+   */
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 685) {
@@ -226,6 +368,10 @@ function ShowCardsObtained({ openingPack, closeOpeningPack, tiers, cardsObtained
     return () => window.removeEventListener("resize", handleResize)
   }, [])
 
+  /**
+   * Go to the next page of cards.
+   * @returns {number} - The next index.
+   */
   function nextCard() {
     setCardsObtainedIndex((prevIndex) => {
       if (prevIndex + cardsToShow >= cardsObtained.length) {
@@ -235,6 +381,10 @@ function ShowCardsObtained({ openingPack, closeOpeningPack, tiers, cardsObtained
     })
   }
 
+  /**
+   * Go to the previoues page of cards.
+   * @returns {number} - The previous index.
+   */
   function prevCard() {
     setCardsObtainedIndex((prevIndex) => {
       if (prevIndex - cardsToShow < 0) {
@@ -270,9 +420,29 @@ function ShowCardsObtained({ openingPack, closeOpeningPack, tiers, cardsObtained
   )
 }
 
+/**
+ * @component CardObtained.
+ * @param {object} tiers - The tiers list.
+ * @param {string} cardId - The id of the card.
+ * @returns {JSX.Element} - The Card Obtained component.
+ */
 function CardObtained({ tiers, cardId }) {
+  /**
+   * The ID of the tier.
+   * @type {string}.
+   */
   const tier = cardId.split("-")[0]
+
+  /**
+   * The ID of the card.
+   * @type {string}.
+   */
   const card = cardId.split("-")[1]
+
+  /**
+   * The name of the card.
+   * @type {string}.
+   */
   const cardName = tiers[tier].cards[card].name
 
   return (
@@ -285,6 +455,12 @@ function CardObtained({ tiers, cardId }) {
   )
 }
 
+/**
+ * @component ShowLevelUp.
+ * @param {object} tiers - The tiers list.
+ * @param {string} cardId - The id of the card.
+ * @returns {JSX.Element} - The Show Level Up component.
+ */
 function ShowLevelUp({ levelUp, setLevelUp, luckLevel }) {
   return (
     <div className={`level-up-div ${levelUp ? "" : "hide"}`}>
@@ -305,6 +481,12 @@ function ShowLevelUp({ levelUp, setLevelUp, luckLevel }) {
   )
 }
 
+/**
+ * @component ShowInformation.
+ * @param {boolean} showInformation - Check if the information must be shown.
+ * @param {function} setShowInformation - Sets the showInformation.
+ * @returns {JSX.Element} - The Show Information component.
+ */
 function ShowInformation({ showInformation, setShowInformation }) {
   return (
     <div className={`information-container-div ${showInformation ? "" : "hide"}`}>
