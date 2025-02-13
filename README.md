@@ -10,7 +10,7 @@
 
 - **STACK :**
 
-  - **Card Realm** : `1.5.0`
+  - **Card Realm** : `1.6.0`
   - **React** : `18.3.1`
   - **React Dom** : `18.3.1`
 

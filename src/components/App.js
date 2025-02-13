@@ -1,6 +1,7 @@
 import LuckData from "../data/luckData"
 import TiersData from "../data/tiersData"
 import { useState, useEffect } from "react"
+import SocialMediaData from "../data/socialMediaData.json"
 
 /**
  * @component App.
@@ -311,27 +312,68 @@ function CardCounter({ quantity }) {
  */
 function OpenCardsPack({ openPack, luckLevel, luckProbabilities, openPacksDisabled, collectionPercentage, packsOpened, ascend, ascensionLevel, setShowInformation }) {
   return (
-    <div id="info" className="open-packs">
-      <button className="open-packs-button" onClick={() => openPack(luckLevel)} disabled={openPacksDisabled}>OPEN PACKS</button>
-      <div className="open-packs-details">
-        <ul>
-          <li>Luck Level: <span>{luckLevel < 3 ? luckLevel + 1 : "MAX"}</span></li>
-          <li>Ascension Level: <span>{ascensionLevel}</span></li>
-          <li>Cards obtained by pack: <span>{`${luckLevel + 2 + ascensionLevel} (1 + ${luckLevel + 1} + ${ascensionLevel})`}</span></li>
-          <li>Probability of Tier C: <span>{luckProbabilities[luckLevel][0] * 100}%</span></li>
-          <li>Probability of Tier U: <span>{(luckProbabilities[luckLevel][1] * 100 - luckProbabilities[luckLevel][0] * 100)}%</span></li>
-          <li>Probability of Tier R: <span>{(luckProbabilities[luckLevel][2] * 100 - luckProbabilities[luckLevel][1] * 100)}%</span></li>
-          <li>Probability of Tier SR: <span>{(100 - luckProbabilities[luckLevel][2] * 100)}%</span></li>
-          <li>Collection percentage: <span>{collectionPercentage}%</span></li>
-          <li>Total open packs: <span>{packsOpened}</span></li>
-        </ul>
+    <div className="open-packs-secction">
+      <div id="info" className="open-packs">
+        <button className="open-packs-button" onClick={() => openPack(luckLevel)} disabled={openPacksDisabled}>OPEN PACKS</button>
+        <div className="open-packs-details">
+          <ul>
+            <li>Luck Level: <span>{luckLevel < 3 ? luckLevel + 1 : "MAX"}</span></li>
+            <li>Ascension Level: <span>{ascensionLevel}</span></li>
+            <li>Cards obtained by pack: <span>{`${luckLevel + 2 + ascensionLevel} (1 + ${luckLevel + 1} + ${ascensionLevel})`}</span></li>
+            <li>Probability of Tier C: <span>{luckProbabilities[luckLevel][0] * 100}%</span></li>
+            <li>Probability of Tier U: <span>{(luckProbabilities[luckLevel][1] * 100 - luckProbabilities[luckLevel][0] * 100)}%</span></li>
+            <li>Probability of Tier R: <span>{(luckProbabilities[luckLevel][2] * 100 - luckProbabilities[luckLevel][1] * 100)}%</span></li>
+            <li>Probability of Tier SR: <span>{(100 - luckProbabilities[luckLevel][2] * 100)}%</span></li>
+            <li>Collection percentage: <span>{collectionPercentage}%</span></li>
+            <li>Total open packs: <span>{packsOpened}</span></li>
+          </ul>
+        </div>
+        <div className="ascend-div">
+          <button className={`ascend-button ${collectionPercentage === 100 ? "" : "button-disabled"}`} onClick={() => ascend()} >ASCEND</button>
+          <Information setShowInformation={setShowInformation} className={"information-button-bottom"} />
+        </div>
       </div>
-      <div className="ascend-div">
-        <button className={`ascend-button ${collectionPercentage === 100 ? "" : "button-disabled"}`} onClick={() => ascend()} >ASCEND</button>
-        <Information setShowInformation={setShowInformation} className={"information-button-bottom"} />
+      <div className="social-media-container">
+        <SocialMedia />
       </div>
     </div>
   )
+}
+
+/**
+ * @component SocialMedia.
+ * @returns {JSX.Element} - The Social Media component.
+ */
+function SocialMedia() {
+  /**
+   * Social Medias List.
+   * @type {object}.
+   */
+  const socialMedias = SocialMediaData.socialMedias
+
+  return (
+    <div className="social-media-container">
+      <div className="social-media">
+        {socialMedias.map((socialMedia) => (
+          <SocialMediaIcon key={`social-media-${socialMedia.name}`} url={socialMedia.url} icon={socialMedia.icon} />
+        ))}
+      </div>
+    </div>
+  )
+
+  /**
+   * @component Social Media Icon.
+   * @param {string} url - The URL of the social media.
+   * @param {string} icon - The icon of the social media.
+   * @returns {JSX.Element} - The Social Media Icon component.
+   */
+  function SocialMediaIcon({ url, icon }) {
+    return (
+      <a className="icon" href={url} target="_blank" rel="noreferrer">
+        <i className={icon} />
+      </a>
+    )
+  }
 }
 
 /**
@@ -506,6 +548,6 @@ function ShowInformation({ showInformation, setShowInformation }) {
           </div>
         </div>
       </div>
-    </div >
+    </div>
   )
 }
