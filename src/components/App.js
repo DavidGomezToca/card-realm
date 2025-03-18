@@ -36,55 +36,55 @@ export default function App() {
 
   /**
    * Check if a pack is being opened.
-   * @type {boolean, function}.
+   * @type {[boolean, function]}.
    */
   const [openingPack, setOpeningPack] = useState(false)
 
   /**
    * The cards obtained list.
-   * @type {object, function}.
+   * @type {[object, function]}.
    */
   const [cardsObtained, setCardsObtained] = useState([])
 
   /**
    * The luck level.
-   * @type {number, function}.
+   * @type {[number, function]}.
    */
   const [luckLevel, setLuckLevel] = useState(0)
 
   /**
    * The quantity of packs opened.
-   * @type {number, function}.
+   * @type {[number, function]}.
    */
   const [packsOpened, setPacksOpened] = useState(0)
 
   /**
    * Check if the luck level must increase.
-   * @type {boolean, function}.
+   * @type {[boolean, function]}.
    */
   const [levelUp, setLevelUp] = useState(false)
 
   /**
    * The percentage of the collection obtained.
-   * @type {number, function}.
+   * @type {[number, function]}.
    */
   const [collectionPercentage, setCollectionPercentage] = useState(0)
 
   /**
    * The ascension level.
-   * @type {number, function}.
+   * @type {[number, function]}.
    */
   const [ascensionLevel, setAscensionLevel] = useState(0)
 
   /**
    * Check if the information must be shown.
-   * @type {boolean, function}.
+   * @type {[boolean, function]}.
    */
   const [showInformation, setShowInformation] = useState(false)
 
   /**
    * The index uppon wich the cards obtained are shown.
-   * @type {number, function}.
+   * @type {[number, function]}.
    */
   const [cardsObtainedIndex, setCardsObtainedIndex] = useState(0)
 

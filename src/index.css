@@ -452,7 +452,7 @@ button:focus {
   border: solid 2px;
   border-radius: 100%;
   transition: 0.3s;
-  color: var(--open-packs-button);
+  color: black;
 }
 
 .social-media .icon:hover {
@@ -623,5 +623,14 @@ button:focus {
 
   .social-media {
     gap: 1.4rem;
+  }
+}
+
+@media (max-width: 400px) {
+
+  .information-message p {
+    font-size: 1rem;
+    width: 80%;
+    padding: 10px;
   }
 }
