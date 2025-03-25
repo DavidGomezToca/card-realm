@@ -6,93 +6,183 @@
       "cards": [
         {
           "id": 0,
-          "name": "TURQUOISE"
+          "name": {
+            "ES": "TURQUESA",
+            "FR": "TURQUOISE",
+            "EN": "TURQUOISE",
+            "PT": "TURQUESA"
+          }
         },
         {
           "id": 1,
-          "name": "LAPIS LAZULI"
+          "name": {
+            "ES": "LAPISLÁZULI",
+            "FR": "LAPIS-LAZULI",
+            "EN": "LAPIS LAZULI",
+            "PT": "LÁPIS-LAZÚLI"
+          }
         },
         {
           "id": 2,
-          "name": "AQUAMARINE"
+          "name": {
+            "ES": "AGUAMARINA",
+            "FR": "AIGUE-MARINE",
+            "EN": "AQUAMARINE",
+            "PT": "ÁGUA-MARINHA"
+          }
         },
         {
           "id": 3,
-          "name": "CITRINE"
+          "name": {
+            "ES": "CITRINO",
+            "FR": "CITRINE",
+            "EN": "CITRINE",
+            "PT": "CITRINO"
+          }
         },
         {
           "id": 4,
-          "name": "JADE"
+          "name": {
+            "ES": "JADE",
+            "FR": "JADE",
+            "EN": "JADE",
+            "PT": "JADE"
+          }
         },
         {
           "id": 5,
-          "name": "OPAL"
+          "name": {
+            "ES": "ÓPALO",
+            "FR": "OPALE",
+            "EN": "OPAL",
+            "PT": "ÓPALO"
+          }
         }
       ]
     },
     {
       "id": 1,
-      "name": "UNCOMMON",
+      "name": "RARE",
       "cards": [
         {
           "id": 0,
-          "name": "SPINEL"
+          "name": {
+            "ES": "ESPINELA",
+            "FR": "SPINELLE",
+            "EN": "SPINEL",
+            "PT": "ESPINELA"
+          }
         },
         {
           "id": 1,
-          "name": "TOURMALINE"
+          "name": {
+            "ES": "TURMALINA",
+            "FR": "TOURMALINE",
+            "EN": "TOURMALINE",
+            "PT": "TURMALINA"
+          }
         },
         {
           "id": 2,
-          "name": "PERIDOT"
+          "name": {
+            "ES": "PERIDOTO",
+            "FR": "PÉRIDOT",
+            "EN": "PERIDOT",
+            "PT": "PERIDOTO"
+          }
         },
         {
           "id": 3,
-          "name": "MOONSTONE"
+          "name": {
+            "ES": "PIEDRA DE LUNA",
+            "FR": "PIERRE DE LUNE",
+            "EN": "MOONSTONE",
+            "PT": "PEDRA DA LUA"
+          }
         },
         {
           "id": 4,
-          "name": "QUARTZ"
+          "name": {
+            "ES": "CUARZO",
+            "FR": "QUARTZ",
+            "EN": "QUARTZ",
+            "PT": "QUARTZO"
+          }
         }
       ]
     },
     {
       "id": 2,
-      "name": "RARE",
+      "name": "EPIC",
       "cards": [
         {
           "id": 0,
-          "name": "TOPAZ"
+          "name": {
+            "ES": "TOPACIO",
+            "FR": "TOPAZE",
+            "EN": "TOPAZ",
+            "PT": "TOPÁZIO"
+          }
         },
         {
           "id": 1,
-          "name": "AMETHYST"
+          "name": {
+            "ES": "AMATISTA",
+            "FR": "AMÉTHYSTE",
+            "EN": "AMETHYST",
+            "PT": "AMETISTA"
+          }
         },
         {
           "id": 2,
-          "name": "SAPPHIRE"
+          "name": {
+            "ES": "ZAFIRO",
+            "FR": "SAPHIR",
+            "EN": "SAPPHIRE",
+            "PT": "SAFIRA"
+          }
         },
         {
           "id": 3,
-          "name": "EMERALD"
+          "name": {
+            "ES": "ESMERALDA",
+            "FR": "ÉMERAUDE",
+            "EN": "EMERALD",
+            "PT": "ESMERALDA"
+          }
         }
       ]
     },
     {
       "id": 3,
-      "name": "SUPER RARE",
+      "name": "LEGENDARY",
       "cards": [
         {
           "id": 0,
-          "name": "DIAMOND"
+          "name": {
+            "ES": "DIAMANTE",
+            "FR": "DIAMANT",
+            "EN": "DIAMOND",
+            "PT": "DIAMANTE"
+          }
         },
         {
           "id": 1,
-          "name": "RUBY"
+          "name": {
+            "ES": "RUBÍ",
+            "FR": "RUBIS",
+            "EN": "RUBY",
+            "PT": "RUBI"
+          }
         },
         {
           "id": 2,
-          "name": "ONYX"
+          "name": {
+            "ES": "ÓNIX",
+            "FR": "ONYX",
+            "EN": "ONYX",
+            "PT": "ÔNIX"
+          }
         }
       ]
     }

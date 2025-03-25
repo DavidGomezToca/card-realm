@@ -6,9 +6,9 @@
   --tier-background: rgb(230, 120, 60);
   --tier-title: rgb(58, 119, 217);
   --tier-common: rgb(100, 200, 100);
-  --tier-uncommon: rgb(100, 140, 220);
-  --tier-rare: rgb(222, 222, 100);
-  --tier-super-rare: rgb(220, 60, 60);
+  --tier-rare: rgb(100, 140, 220);
+  --tier-epic: rgb(222, 222, 100);
+  --tier-legendary: rgb(220, 60, 60);
   --card-not-discovered-background: rgb(100, 100, 100);
   --card-counter: rgb(150, 150, 150);
   --open-packs-background: rgb(146, 89, 237);
@@ -109,16 +109,16 @@ body::-webkit-scrollbar {
   background-color: var(--tier-common);
 }
 
-.tier-uncommon {
-  background-color: var(--tier-uncommon);
-}
-
 .tier-rare {
   background-color: var(--tier-rare);
 }
 
-.tier-super-rare {
-  background-color: var(--tier-super-rare);
+.tier-epic {
+  background-color: var(--tier-epic);
+}
+
+.tier-legendary {
+  background-color: var(--tier-legendary);
 }
 
 .cards {
@@ -206,17 +206,43 @@ body::-webkit-scrollbar {
 }
 
 .open-packs-button {
+  width: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: var(--open-packs-button);
 }
 
 .ascend-div {
-  width: 58%;
+  width: 50%;
   position: relative;
+}
+
+.options {
+  height: 6rem;
+  display: flex;
+  align-items: center;
+}
+
+.language-flag {
+  width: 6rem;
+  height: 4rem;
+  border: solid var(--cards-collection-background) 4px;
+  border-radius: 10px;
+}
+
+.language-flag,
+.information-button-bottom,
+.ascend-button {
+  position: absolute;
+}
+
+.language-flag {
+  right: 6rem;
 }
 
 .information-button-bottom,
 .ascend-button {
-  position: absolute;
   right: 0;
 }
 
@@ -243,6 +269,7 @@ button:focus {
 }
 
 .open-packs-details {
+  width: 30%;
   margin-left: 60px;
 }
 
@@ -442,7 +469,7 @@ button:focus {
   display: flex;
   justify-content: center;
   gap: 4rem;
-  background-color: var(--tier-uncommon);
+  background-color: var(--tier-rare);
   border-radius: 20px;
   padding: 0.8rem;
 }
@@ -528,7 +555,7 @@ button:focus {
   }
 }
 
-@media (max-width: 685px) {
+@media (max-width: 750px) {
   .title,
   .tier-title {
     width: 220px;
@@ -572,6 +599,10 @@ button:focus {
     width: 80%;
   }
 
+  .options {
+    align-items: center;
+  }
+
   .close-cards-obtained-button,
   .close-information-button {
     font-size: 1.2rem;
@@ -593,10 +624,11 @@ button:focus {
     float: none;
   }
 
+  .language-flag,
   .information-button-bottom,
   .ascend-button {
     position: inherit;
-    margin: 20px auto;
+    margin: 0 auto;
   }
 
   .level-up-number {
@@ -627,7 +659,6 @@ button:focus {
 }
 
 @media (max-width: 400px) {
-
   .information-message p {
     font-size: 1rem;
     width: 80%;

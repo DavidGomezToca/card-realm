@@ -1,13 +1,26 @@
 import LuckData from "../data/luckData"
 import TiersData from "../data/tiersData"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useContext } from "react"
 import SocialMediaData from "../data/socialMediaData.json"
+import { TranslationsContext } from "../contexts/TranslationsContext"
 
 /**
  * @component App.
  * @returns {JSX.Element} - The App component.
  */
 export default function App() {
+  /**
+   * Translations context.
+   * @type {{object}}.
+   */
+  const { language, translations, changeLanguage } = useContext(TranslationsContext)
+
+  /**
+   * Texts translated.
+   * @type {object}.
+   */
+  const texts = translations
+
   /**
    * The Luck Probabilities list.
    * @type {object}.
@@ -191,12 +204,12 @@ export default function App() {
       <div className="title">CARD REALM</div>
       <Information setShowInformation={setShowInformation} className={"information-button-top"} />
       <div className="cards-collection">
-        {tiers.map((tier) => (<Tier key={tier.id} tier={tier} cardQuantities={cardQuantities} />))}
-        <OpenCardsPack openPack={handleOpenPack} luckLevel={luckLevel} luckProbabilities={luckProbabilities} openPacksDisabled={openingPack} collectionPercentage={collectionPercentage} packsOpened={packsOpened} ascend={ascend} ascensionLevel={ascensionLevel} showInformation={showInformation} setShowInformation={setShowInformation} />
+        {tiers.map((tier) => (<Tier key={tier.id} language={language} tier={tier} cardQuantities={cardQuantities} />))}
+        <OpenCardsPack texts={texts} openPack={handleOpenPack} luckLevel={luckLevel} luckProbabilities={luckProbabilities} openPacksDisabled={openingPack} collectionPercentage={collectionPercentage} packsOpened={packsOpened} ascend={ascend} ascensionLevel={ascensionLevel} showInformation={showInformation} setShowInformation={setShowInformation} language={language} changeLanguage={changeLanguage} />
       </div>
-      <ShowCardsObtained openingPack={openingPack} closeOpeningPack={handleCloseOpeningPack} tiers={tiers} cardsObtained={cardsObtained} cardsObtainedIndex={cardsObtainedIndex} setCardsObtainedIndex={setCardsObtainedIndex} />
-      <ShowLevelUp levelUp={levelUp} setLevelUp={setLevelUp} luckLevel={luckLevel} />
-      <ShowInformation showInformation={showInformation} setShowInformation={setShowInformation} />
+      <ShowCardsObtained texts={texts} language={language} openingPack={openingPack} closeOpeningPack={handleCloseOpeningPack} tiers={tiers} cardsObtained={cardsObtained} cardsObtainedIndex={cardsObtainedIndex} setCardsObtainedIndex={setCardsObtainedIndex} />
+      <ShowLevelUp texts={texts} levelUp={levelUp} setLevelUp={setLevelUp} luckLevel={luckLevel} />
+      <ShowInformation texts={texts} showInformation={showInformation} setShowInformation={setShowInformation} />
     </div>
   )
 }
@@ -221,12 +234,12 @@ function Information({ setShowInformation, className }) {
  * @param {object} cardQuantities - The Card Quantities list.
  * @returns {JSX.Element} - The Tier component.
  */
-function Tier({ tier, cardQuantities }) {
+function Tier({ language, tier, cardQuantities }) {
   return (
     <div className="tier">
       <div className={`tier-title ${getTierColor(tier.id)}`}>{tier.name}</div>
       <div className="cards">
-        {tier.cards.map((card) => (<Card key={tier.id + "-" + card.id} tier={tier.id} card={card} quantity={cardQuantities[`${tier.id}-${card.id}`]} />))}
+        {tier.cards.map((card) => (<Card key={tier.id + "-" + card.id} language={language} tier={tier.id} card={card} quantity={cardQuantities[`${tier.id}-${card.id}`]} />))}
       </div>
     </div>
   )
@@ -239,16 +252,16 @@ function Tier({ tier, cardQuantities }) {
  * @param {number} quantity - The quantity of the card.
  * @returns {JSX.Element} - The Card component.
  */
-function Card({ tier, card, quantity }) {
+function Card({ language, tier, card, quantity }) {
   return (
     <>
       {quantity !== 0 ?
         <div>
           <div className={`card ${getTierColor(tier)}`}>
             <div className="card-discovered-img-div">
-              <img className="card-discovered-img" src={`/img/gems/${card.name}.png`} alt={`${card.name}.png`} />
+              <img className="card-discovered-img" src={`/img/gems/${card.name["EN"]}.png`} alt={`${card.name}.png`} />
             </div>
-            <h2 className="card-title">{card.name}</h2>
+            <h2 className="card-title">{card.name[language]}</h2>
           </div>
           <CardCounter quantity={quantity} />
         </div>
@@ -274,11 +287,11 @@ function getTierColor(tier) {
     case 0:
       return "tier-common"
     case 1:
-      return "tier-uncommon"
-    case 2:
       return "tier-rare"
+    case 2:
+      return "tier-epic"
     case 3:
-      return "tier-super-rare"
+      return "tier-legendary"
     default:
       return ""
   }
@@ -299,6 +312,7 @@ function CardCounter({ quantity }) {
 
 /**
  * @component OpenCardsPack.
+ * @param {object} texts - The translated texts.
  * @param {function} openPack - Open a pack.
  * @param {number} luckLevel - The luck level.
  * @param {object} luckProbabilities - The luck probabilities list.
@@ -310,33 +324,64 @@ function CardCounter({ quantity }) {
  * @param {function} setShowInformation - Sets the showInformation.
  * @returns {JSX.Element} - The Open Cards Pack component.
  */
-function OpenCardsPack({ openPack, luckLevel, luckProbabilities, openPacksDisabled, collectionPercentage, packsOpened, ascend, ascensionLevel, setShowInformation }) {
+function OpenCardsPack({ texts, openPack, luckLevel, luckProbabilities, openPacksDisabled, collectionPercentage, packsOpened, ascend, ascensionLevel, setShowInformation, language, changeLanguage }) {
   return (
     <div className="open-packs-secction">
       <div id="info" className="open-packs">
-        <button className="open-packs-button" onClick={() => openPack(luckLevel)} disabled={openPacksDisabled}>OPEN PACKS</button>
+        <button className="open-packs-button" onClick={() => openPack(luckLevel)} disabled={openPacksDisabled}>{texts[0]}</button>
         <div className="open-packs-details">
-          <ul>
-            <li>Luck Level: <span>{luckLevel < 3 ? luckLevel + 1 : "MAX"}</span></li>
-            <li>Ascension Level: <span>{ascensionLevel}</span></li>
-            <li>Cards obtained by pack: <span>{`${luckLevel + 2 + ascensionLevel} (1 + ${luckLevel + 1} + ${ascensionLevel})`}</span></li>
-            <li>Probability of Tier C: <span>{luckProbabilities[luckLevel][0] * 100}%</span></li>
-            <li>Probability of Tier U: <span>{(luckProbabilities[luckLevel][1] * 100 - luckProbabilities[luckLevel][0] * 100)}%</span></li>
-            <li>Probability of Tier R: <span>{(luckProbabilities[luckLevel][2] * 100 - luckProbabilities[luckLevel][1] * 100)}%</span></li>
-            <li>Probability of Tier SR: <span>{(100 - luckProbabilities[luckLevel][2] * 100)}%</span></li>
-            <li>Collection percentage: <span>{collectionPercentage}%</span></li>
-            <li>Total open packs: <span>{packsOpened}</span></li>
-          </ul>
+          <Stats texts={texts} luckLevel={luckLevel} luckProbabilities={luckProbabilities} collectionPercentage={collectionPercentage} packsOpened={packsOpened} ascensionLevel={ascensionLevel} />
         </div>
         <div className="ascend-div">
-          <button className={`ascend-button ${collectionPercentage === 100 ? "" : "button-disabled"}`} onClick={() => ascend()} >ASCEND</button>
-          <Information setShowInformation={setShowInformation} className={"information-button-bottom"} />
+          <div className="options">
+            <LanguageFlag language={language} changeLanguage={changeLanguage} />
+            <Information setShowInformation={setShowInformation} className={"information-button-bottom"} />
+          </div>
+          <button className={`ascend-button ${collectionPercentage === 100 ? "" : "button-disabled"}`} onClick={() => ascend()} >{texts[1]}</button>
         </div>
       </div>
       <div className="social-media-container">
         <SocialMedia />
       </div>
     </div>
+  )
+}
+
+/**
+ * @component Stats.
+ * @param {object} texts - The translated texts.
+ * @param {number} luckLevel - The luck level.
+ * @param {object} luckProbabilities - The luck probabilities.
+ * @param {number} collectionPercentage - The percentage of the collection obtained.
+ * @param {number} packsOpened - The quantity of packs opened.
+ * @param {number} ascensionLevel - The ascension level.
+ * @returns {JSX.Element} - The Stats component.
+ */
+function Stats({ texts, luckLevel, luckProbabilities, collectionPercentage, packsOpened, ascensionLevel }) {
+  return (
+    <ul className="stats">
+      <li>{texts[2]}<span>{luckLevel < 3 ? luckLevel + 1 : "MAX"}</span></li>
+      <li>{texts[3]}<span>{ascensionLevel}</span></li>
+      <li>{texts[4]}<span>{`${luckLevel + 2 + ascensionLevel} (1 + ${luckLevel + 1} + ${ascensionLevel})`}</span></li>
+      <li>{texts[5]}<span>{luckProbabilities[luckLevel][0] * 100}%</span></li>
+      <li>{texts[6]}<span>{(luckProbabilities[luckLevel][1] * 100 - luckProbabilities[luckLevel][0] * 100)}%</span></li>
+      <li>{texts[7]}<span>{(luckProbabilities[luckLevel][2] * 100 - luckProbabilities[luckLevel][1] * 100)}%</span></li>
+      <li>{texts[8]}<span>{(100 - luckProbabilities[luckLevel][2] * 100)}%</span></li>
+      <li>{texts[9]}<span>{collectionPercentage}%</span></li>
+      <li>{texts[10]}<span>{packsOpened}</span></li>
+    </ul>
+  )
+}
+
+/**
+ * @component LanguageFlag.
+ * @param {string} language - The language.
+ * @param {function} changeLanguage - Changes the language.
+ * @returns {JSX.Element} - The Footer component.
+ */
+function LanguageFlag({ language, changeLanguage }) {
+  return (
+    <img className="language-flag" src={`flags/${language}.png`} alt={`Language Flag ${language}`} onClick={() => changeLanguage()} />
   )
 }
 
@@ -378,6 +423,7 @@ function SocialMedia() {
 
 /**
  * @component ShowCardsObtained.
+ * @param {object} texts - The translated texts.
  * @param {function} openingPack - Check if a pack is being opened.
  * @param {function} closeOpeningPack - Close the opening pack.
  * @param {object} tiers - The tiers list.
@@ -386,7 +432,7 @@ function SocialMedia() {
  * @param {function} setCardsObtainedIndex - Sets the cardsObtainedIndex.
  * @returns {JSX.Element} - The Show Cards Obtained component.
  */
-function ShowCardsObtained({ openingPack, closeOpeningPack, tiers, cardsObtained, cardsObtainedIndex, setCardsObtainedIndex }) {
+function ShowCardsObtained({ texts, language, openingPack, closeOpeningPack, tiers, cardsObtained, cardsObtainedIndex, setCardsObtainedIndex }) {
   /**
    * The quantity of cards to show.
    * @type {number, function}.
@@ -446,7 +492,7 @@ function ShowCardsObtained({ openingPack, closeOpeningPack, tiers, cardsObtained
             </button>
             <div className="current-cards-obtained">
               {cardsObtained.slice(cardsObtainedIndex, cardsObtainedIndex + cardsToShow).map((cardId, index) => (
-                <CardObtained key={cardsObtainedIndex + index} tiers={tiers} cardId={cardId} />
+                <CardObtained key={cardsObtainedIndex + index} language={language} tiers={tiers} cardId={cardId} />
               ))}
             </div>
             <button className={`carrousel-button next-button ${cardsObtainedIndex + cardsToShow >= cardsObtained.length ? "button-disabled" : ""}`} onClick={nextCard}>
@@ -455,7 +501,7 @@ function ShowCardsObtained({ openingPack, closeOpeningPack, tiers, cardsObtained
           </div>
         )}
         <div className="close-cards-obtained-div">
-          <button className="close-cards-obtained-button" onClick={() => closeOpeningPack()}>ACCEPT</button>
+          <button className="close-cards-obtained-button" onClick={() => closeOpeningPack()}>{texts[11]}</button>
         </div>
       </div>
     </div>
@@ -468,7 +514,8 @@ function ShowCardsObtained({ openingPack, closeOpeningPack, tiers, cardsObtained
  * @param {string} cardId - The id of the card.
  * @returns {JSX.Element} - The Card Obtained component.
  */
-function CardObtained({ tiers, cardId }) {
+function CardObtained({ language, tiers, cardId }) {
+  console.log(language)
   /**
    * The ID of the tier.
    * @type {string}.
@@ -490,25 +537,26 @@ function CardObtained({ tiers, cardId }) {
   return (
     <div className={`card ${getTierColor(Number(tier))}`}>
       <div className="card-obtained-img-div">
-        <img className="card-obtained-img" src={`/img/gems/${cardName}.png`} alt={`${cardName}.png`} />
+        <img className="card-obtained-img" src={`/img/gems/${cardName["EN"]}.png`} alt={`${cardName[language]}.png`} />
       </div>
-      <h2 className="card-title">{cardName}</h2>
+      <h2 className="card-title">{cardName[language]}</h2>
     </div>
   )
 }
 
 /**
  * @component ShowLevelUp.
+ * @param {object} texts - The translated texts.
  * @param {object} tiers - The tiers list.
  * @param {string} cardId - The id of the card.
  * @returns {JSX.Element} - The Show Level Up component.
  */
-function ShowLevelUp({ levelUp, setLevelUp, luckLevel }) {
+function ShowLevelUp({ texts, levelUp, setLevelUp, luckLevel }) {
   return (
     <div className={`level-up-div ${levelUp ? "" : "hide"}`}>
       <div className="level-up-items">
         <div className="level-up-message">
-          <h2>Level Up Luck!!</h2>
+          <h2>{texts[12]}</h2>
           <p>
             <span className="level-up-number">{luckLevel}</span>
             <span className="level-up-sign">{">"}</span>
@@ -516,7 +564,7 @@ function ShowLevelUp({ levelUp, setLevelUp, luckLevel }) {
           </p>
         </div>
         <div className="close-level-up-div">
-          <button className="close-level-up-button" onClick={() => setLevelUp(false)}>ACCEPT</button>
+          <button className="close-level-up-button" onClick={() => setLevelUp(false)}>{texts[11]}</button>
         </div>
       </div>
     </div>
@@ -525,26 +573,22 @@ function ShowLevelUp({ levelUp, setLevelUp, luckLevel }) {
 
 /**
  * @component ShowInformation.
+ * @param {object} texts - The translated texts.
  * @param {boolean} showInformation - Check if the information must be shown.
  * @param {function} setShowInformation - Sets the showInformation.
  * @returns {JSX.Element} - The Show Information component.
  */
-function ShowInformation({ showInformation, setShowInformation }) {
+function ShowInformation({ texts, showInformation, setShowInformation }) {
   return (
     <div className={`information-container-div ${showInformation ? "" : "hide"}`}>
       <div className="information-div">
         <div className="information-items">
           <div className="information-message">
-            <h2>Information</h2>
-            <p>
-              Card Realm is a collectible card game where you can get cards from different tiers: Common, Uncommon, Rare and Super Rare.<br /><br />
-              The cards are obtained by opening packs, each pack contains a random number of cards, the number of cards is determined by the luck level and the ascension level.<br /><br />
-              The luck level determines the probability of obtaining cards from each tier, the higher the luck level the higher the probability of obtaining cards from higher tiers.<br /><br />
-              Once you have completed the collection you cand ascend, this will reset the luck level and the collection to 0, but increase permanently your ascension level.
-            </p>
+            <h2>{texts[13]}</h2>
+            <p>{texts[14]}<br /><br />{texts[15]}<br /><br />{texts[16]}<br /><br />{texts[17]}</p>
           </div>
           <div className="close-information-div">
-            <button className="close-information-button" onClick={() => setShowInformation(false)}>ACCEPT</button>
+            <button className="close-information-button" onClick={() => setShowInformation(false)}>{texts[11]}</button>
           </div>
         </div>
       </div>
